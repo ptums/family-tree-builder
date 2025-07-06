@@ -42,7 +42,12 @@ const FamilyNode = ({ node, style }: any) => {
             </Description>
             <DialogContent />
             <div className="flex gap-4">
-              <button onClick={() => setIsOpen(false)}>Close</button>
+              <button
+                className="bg-purple-500 rounded-full text-white py-1 px-4 cursor-pointer hover:bg-purple-600"
+                onClick={() => setIsOpen(false)}
+              >
+                Close
+              </button>
             </div>
           </DialogPanel>
         </div>
