@@ -11,11 +11,12 @@
     "motherId": "fcb14af9-c2cd-4d3a-831c-e925bc91b1a0",
     "spouses": [],
     "children": [],
-    "occupation": "Tavern owner"
+    "occupation": "Tavern owner",
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607435541/barnwellfamilytree/helen-barnwell/HelenBarnwell_xwzehd.jpg"
   },
   {
     "id": "26a1a17f-5d63-4b08-a30f-f9f8033270fd",
-    "name": "Sarah Edith Barnwell",
+    "name": "Sally Edith Barnwell",
     "gender": "female",
     "birth": "06/30/1917",
     "birthLocation": "New Brunswick City, Middlesex, New Jersey",
@@ -24,7 +25,8 @@
     "fatherId": "6ccd3216-9d88-4a10-93f9-94c891e1457d",
     "motherId": "fcb14af9-c2cd-4d3a-831c-e925bc91b1a0",
     "spouses": [],
-    "children": []
+    "children": [],
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607429745/barnwellfamilytree/sally-barnwell/SallyEBarnwell_hkaxfa.jpg"
   },
   {
     "id": "f5c153e7-2916-404e-8233-3f222e7e7864",
@@ -240,7 +242,8 @@
       "2f37c3fe-20db-48f1-85a3-58399ddf59b8",
       "12f6016e-942e-4dc5-bc6b-7cbcf1b1ec00"
     ],
-    "occupation": "Mason"
+    "occupation": "Mason",
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607475022/barnwellfamilytree/richard-barnwell/richard-f-barnwell-middle-age_nn4e1t.jpg"
   },
   {
     "id": "4242196f-072d-4583-9d06-8c00b5fbb71a",
@@ -257,7 +260,7 @@
   },
   {
     "id": "b32f358a-993e-4415-a3ab-e2da075bac34",
-    "name": "Thomas F Barnwell",
+    "name": "Thomas F. Barnwell",
     "gender": "male",
     "birth": "DEC 1871",
     "birthLocation": "New Brunswick City, Middlesex, New Jersey",
@@ -324,7 +327,8 @@
       "4dc06a61-77e4-40ef-80f1-a70e27d87ce5",
       "2f37c3fe-20db-48f1-85a3-58399ddf59b8",
       "12f6016e-942e-4dc5-bc6b-7cbcf1b1ec00"
-    ]
+    ],
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607475475/barnwellfamilytree/sara-snitzler/ea5552af-dd48-4f87-8da6-9f3637f35b49_jlpmvg.jpg"
   },
   {
     "id": "6be20491-8ad7-4821-aa10-991a5d5153bf",
@@ -451,7 +455,8 @@
       "fcb14af9-c2cd-4d3a-831c-e925bc91b1a0",
       "b7d3f14f-13df-4f42-9eca-09f0522da72d",
       "ca2c4421-2f6f-437b-b7f6-501d1839fbf1"
-    ]
+    ],
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607477225/barnwellfamilytree/sarah-ann-horan/sarah-ann-horahan-young_onihlo.jpg"
   },
   {
     "id": "445252f6-21e2-4e59-a29b-c113aaa37f15",
@@ -587,10 +592,11 @@
     "spouses": ["b6e2c7a1-4f3e-4e2a-9c7d-2f8e1a5b7c21"],
     "children": [
       "28ecec49-aa1b-457f-bf38-2246033f219e",
-      "f9911a90-ba02-484a-93b4-ecd1e8d5e900",
-
+      "4242196f-072d-4583-9d06-8c00b5fbb71a",
+      "b32f358a-993e-4415-a3ab-e2da075bac34",
       "53397f6a-9517-4ba9-9314-a65b2a2ca272",
-      "27a0c57f-cffe-4595-ad07-cf28d6fc2db7"
+      "27a0c57f-cffe-4595-ad07-cf28d6fc2db7",
+      "d5c20981-e1c2-4714-8686-2036e4c87d45"
     ],
     "occupation": "Day Laborer, Button factory worker, clerk"
   },
@@ -607,9 +613,11 @@
     "spouses": ["f9911a90-ba02-484a-93b4-ecd1e8d5e900"],
     "children": [
       "28ecec49-aa1b-457f-bf38-2246033f219e",
-      "f9911a90-ba02-484a-93b4-ecd1e8d5e900",
-      "f9911a90-ba02-484a-93b4-ecd1e8d5e900",
+      "4242196f-072d-4583-9d06-8c00b5fbb71a",
+      "b32f358a-993e-4415-a3ab-e2da075bac34",
       "53397f6a-9517-4ba9-9314-a65b2a2ca272",
+      "27a0c57f-cffe-4595-ad07-cf28d6fc2db7",
+      "d5c20981-e1c2-4714-8686-2036e4c87d45",
       "27a0c57f-cffe-4595-ad07-cf28d6fc2db7"
     ],
     "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607478297/barnwellfamilytree/margaret-boyne/margaret-boyne-old_vtixe5.jpg"
@@ -737,6 +745,8 @@
       "604bcb9e-b70f-4ace-84ed-96b693580a94",
       "18a95a3f-9345-4e28-bbc0-3f9e558d5529",
       "7398c65f-29b1-4396-aa61-8ec6d71e5dab"
-    ]
+    ],
+
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607482621/barnwellfamilytree/ellen-durande/ellen-r-durande-kinda-old_anl9ze.jpg"
   }
 ]
