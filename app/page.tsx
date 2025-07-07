@@ -1,6 +1,6 @@
 "use client";
 import FamilyTree from "@/components/FamilyTree";
-import { normalDBFamilyData } from "@/data/familyTree";
+import { normalizeDBFamilyData } from "@/data/familyTree";
 import { FamilyNode } from "@/types/FamilyNode";
 import {
   useQuery,
@@ -42,8 +42,11 @@ export default function App() {
 
 function FamilyTreeWithQuery() {
   const { data, isLoading, error } = useFamilyData();
+
   if (isLoading) return <LoadingIcon />;
   if (error) return <div>Error loading family data</div>;
-  const normalFamilyData = normalDBFamilyData(data as FamilyNode[]);
-  return <FamilyTree treeData={normalFamilyData as unknown as FamilyNode[]} />;
+
+  const normalizedData = normalizeDBFamilyData(data as FamilyNode[]);
+
+  return <FamilyTree treeData={normalizedData as unknown as FamilyNode[]} />;
 }

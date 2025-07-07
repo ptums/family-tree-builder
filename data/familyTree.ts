@@ -18,7 +18,12 @@ export const familyData = data.map((node) => {
     node?.spouses?.map((id) => ({ id, type: "married" as const })) || [];
 
   // Siblings can be derived later; for now, leave empty
-  const siblings = findSiblings(node as unknown as FamilyNode);
+  const siblings = findSiblings(
+    data,
+    node as unknown as FamilyNode,
+    "fatherId",
+    "motherId"
+  );
 
   return {
     id: node.id,
@@ -37,7 +42,7 @@ export const familyData = data.map((node) => {
   };
 });
 
-export const normalDBFamilyData = (data: any) => {
+export const normalizeDBFamilyData = (data: any) => {
   return data.map((node: any) => {
     const parents = [node.fatherid, node.motherid]
       .filter((id): id is string => Boolean(id))
@@ -55,7 +60,12 @@ export const normalDBFamilyData = (data: any) => {
       [];
 
     // Siblings can be derived later; for now, leave empty
-    const siblings = findSiblings(node as unknown as FamilyNode);
+    const siblings = findSiblings(
+      data,
+      node as unknown as FamilyNode,
+      "fatherid",
+      "motherid"
+    );
 
     return {
       id: node.id,

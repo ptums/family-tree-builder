@@ -1,5 +1,4 @@
 import { FamilyNode } from "@/types/FamilyNode";
-import data from "../data/family-tree.json";
 
 export interface Sibling {
   id: string;
@@ -11,21 +10,28 @@ export interface Sibling {
  * @param currentNode - The node to find siblings for
  * @returns Array of siblings in the specified format
  */
-export const findSiblings = (currentNode: FamilyNode): Sibling[] => {
+export const findSiblings = (
+  data: any,
+  currentNode: FamilyNode,
+  fatherKey: string,
+  motherKey: string
+): Sibling[] => {
   const siblings: Sibling[] = [];
 
   // Find nodes with the same fatherId and motherId (excluding the current node)
   const siblingNodes = data.filter(
-    (node) =>
+    (node: FamilyNode) =>
       node.id !== currentNode.id &&
-      node.fatherId === currentNode.fatherId &&
-      node.motherId === currentNode.motherId &&
-      node.fatherId !== null &&
-      node.motherId !== null
+      node[fatherKey as keyof FamilyNode] ===
+        currentNode[fatherKey as keyof FamilyNode] &&
+      node[motherKey as keyof FamilyNode] ===
+        currentNode[motherKey as keyof FamilyNode] &&
+      node[fatherKey as keyof FamilyNode] !== null &&
+      node[motherKey as keyof FamilyNode] !== null
   );
 
   // Convert to the required format
-  siblingNodes.forEach((node) => {
+  siblingNodes.forEach((node: any) => {
     // Determine the type based on the node's gender
     const type: "father" | "mother" =
       node.gender === "male" ? "father" : "mother";

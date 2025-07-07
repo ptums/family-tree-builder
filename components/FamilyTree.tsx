@@ -9,6 +9,8 @@ import FamilyNode from "@/components/FamilyNode";
 import dynamic from "next/dynamic";
 import LoadingIcon from "@/components/LoadingIcon";
 import { familyData } from "@/data/familyTree";
+import Footer from "./DarkBanner";
+import DarkBanner from "./DarkBanner";
 
 const WIDTH = 220;
 const HEIGHT = 200;
@@ -21,6 +23,7 @@ const HelperText = dynamic(() => import("@/components/HelperText"), {
 const FamilyTree = ({ treeData }: { treeData: FamilyTreeNodes[] }) => {
   // TODO: Sort by birthday
   const treeDataMemo = useMemo(() => treeData, []);
+
   // Scroll to bottom and center horizontally on page load/refresh
   // TODO: Change this so that id: "f5c153e7-2916-404e-8233-3f222e7e7864" is the main focus
   useEffect(() => {
@@ -32,43 +35,42 @@ const FamilyTree = ({ treeData }: { treeData: FamilyTreeNodes[] }) => {
   }, []);
 
   return (
-    <>
-      <div className="flex flex-col h-full">
-        <h1 className="text-black text-2xl text-center font-bold mt-4">
-          Barnwell Family Tree
-        </h1>
-        <HelperText topPosition="top-4" />
+    <div className="flex flex-col h-full">
+      <DarkBanner bannerPosition={"top-0"}>
+        <h1 className="text-2xl text-center font-bold">Barnwell Family Tree</h1>
+      </DarkBanner>
 
-        {treeDataMemo && treeDataMemo.length > 0 ? (
-          <>
-            <ReactFamilyTree
-              nodes={treeDataMemo}
-              rootId={"f5c153e7-2916-404e-8233-3f222e7e7864"}
-              width={WIDTH}
-              height={HEIGHT}
-              renderNode={(node) => (
-                <FamilyNode
-                  key={node.id}
-                  node={node}
-                  style={{
-                    width: WIDTH,
-                    height: HEIGHT,
-                    transform: `translate(${node.left * (WIDTH / 2)}px, ${
-                      node.top * (HEIGHT / 2)
-                    }px)`,
-                  }}
-                />
-              )}
-            />
+      {treeDataMemo && treeDataMemo.length > 0 ? (
+        <>
+          <ReactFamilyTree
+            nodes={treeDataMemo}
+            rootId={"f5c153e7-2916-404e-8233-3f222e7e7864"}
+            width={WIDTH}
+            height={HEIGHT}
+            renderNode={(node) => (
+              <FamilyNode
+                key={node.id}
+                node={node}
+                style={{
+                  width: WIDTH,
+                  height: HEIGHT,
+                  transform: `translate(${node.left * (WIDTH / 2)}px, ${
+                    node.top * (HEIGHT / 2)
+                  }px)`,
+                }}
+              />
+            )}
+          />
 
-            <ProfileDialog />
-          </>
-        ) : (
-          <LoadingIcon />
-        )}
-      </div>
-      <HelperText topPosition="bottom-8" />
-    </>
+          <ProfileDialog />
+        </>
+      ) : (
+        <LoadingIcon />
+      )}
+      <DarkBanner bannerPosition={"bottom-0"}>
+        <HelperText />
+      </DarkBanner>
+    </div>
   );
 };
 

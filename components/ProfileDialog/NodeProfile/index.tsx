@@ -22,7 +22,9 @@ const NodeProfile = () => {
     useDialog();
   const hasSiblings =
     selectedNode?.siblings && selectedNode.siblings.length > 0;
-
+  console.log({
+    selectedNode,
+  });
   const hasChildren =
     selectedNode?.children && selectedNode?.children.length > 0;
 

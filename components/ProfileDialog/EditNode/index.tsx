@@ -24,7 +24,7 @@ const EditNode = () => {
         )}
       </DialogTitle>
 
-      <NodeForm />
+      <NodeForm selectedNode={selectedNode} />
       <div className="border-t p-4 mt-8 flex sm:flex-row justify-between">
         <button
           className="bg-red-600 rounded-full text-white py-1 px-4 cursor-pointer hover:bg-red-500"

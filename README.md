@@ -5,4 +5,3 @@
 - Create edit/add new member forms
 - Light house view for documents & photos
 - Additional Details component
-- Add siblings list to profile dialog
