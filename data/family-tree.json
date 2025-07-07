@@ -587,8 +587,8 @@
     "birthLocation": "Kilmessan, Meath, Ireland",
     "death": "02/02/1911",
     "deathLocation": "New Brunswick, Middlesex County, New Jersey, USA",
-    "fatherId": null,
-    "motherId": null,
+    "fatherId": "c5e1a8f2-4d7b-1a3c-6e9f-5b2d7a4c1e8f",
+    "motherId": "d8f2b5a1-6c3e-7a9d-4f1b-2c6e8a3d7f4b",
     "spouses": ["b6e2c7a1-4f3e-4e2a-9c7d-2f8e1a5b7c21"],
     "children": [
       "28ecec49-aa1b-457f-bf38-2246033f219e",
@@ -598,7 +598,8 @@
       "27a0c57f-cffe-4595-ad07-cf28d6fc2db7",
       "d5c20981-e1c2-4714-8686-2036e4c87d45"
     ],
-    "occupation": "Day Laborer, Button factory worker, clerk"
+    "occupation": "Day Laborer, Button factory worker, clerk",
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1751850936/barnwellfamilytree/john-h-barnwell-sr/johnhbarnwell.jpg"
   },
   {
     "id": "b6e2c7a1-4f3e-4e2a-9c7d-2f8e1a5b7c21",
@@ -608,8 +609,8 @@
     "birthLocation": "Kilmessan, Meath, Ireland",
     "death": "11/07/1900",
     "deathLocation": "New Brunswick, Middlesex County, New Jersey, USA",
-    "fatherId": null,
-    "motherId": null,
+    "fatherId": "e7a4c1f6-2d8b-5a3e-8f2c-1b6d4a7e3f9b",
+    "motherId": "c2e8a5f1-7d3b-4a6c-9e2f-1b5d7a3c8e4f",
     "spouses": ["f9911a90-ba02-484a-93b4-ecd1e8d5e900"],
     "children": [
       "28ecec49-aa1b-457f-bf38-2246033f219e",
@@ -652,7 +653,7 @@
     "death": "01/29/1911",
     "deathLocation": "New Brunswick, Middlesex County, New Jersey, USA",
     "fatherId": null,
-    "motherId": null,
+    "motherId": "f3b8d1a4-6c2e-9a7d-4f1b-8c5e2a7d3f6b",
     "spouses": ["e3b7c2d4-8f1a-4b6e-9c2a-7d5f1e3b4c2a"],
     "children": [
       "df4b6463-9ad0-4f1b-8a51-605744ce686e",
@@ -680,7 +681,8 @@
       "ba2fe29e-7408-4826-80a8-daa1ef1e8c02",
       "c972cd32-202c-405e-904e-e104fa9cb6fb",
       "dd91a034-f0a4-4d2c-bc76-5724200386f1"
-    ]
+    ],
+    "occupation": "Laborer, Farm Laborer"
   },
   {
     "id": "9a3d2c7e-1b5f-4a6e-8c2d-3f7b1e4c5a8d",
@@ -709,8 +711,8 @@
     "birthLocation": "Pennsylvania",
     "death": "05/18/1894",
     "deathLocation": "Northampton, Burlington, New Jersey",
-    "fatherId": null,
-    "motherId": null,
+    "fatherId": "d4f8a2c6-9e1b-4f7d-8c3a-5b9e2f1d7c4a",
+    "motherId": "e7b3d9f1-2a5c-4e8b-9d6f-3c1a7e4b2d8f",
     "spouses": ["8c1e5b7a-2d4f-4b3c-9a6e-1f2d7c5a3b8e"],
     "children": [
       "6be20491-8ad7-4821-aa10-991a5d5153bf",
@@ -733,8 +735,8 @@
     "birthLocation": "Philadelphia, Pennsylvania",
     "death": "03/1897",
     "deathLocation": "Northampton, Burlington, New Jersey",
-    "fatherId": null,
-    "motherId": null,
+    "fatherId": "e4a1c7f3-8b5d-2a6e-9f1c-4b7d3a8e5f1c",
+    "motherId": "a9d5b1f3-7c2e-4a8d-6f1b-3e9c5a2d7f4b",
     "spouses": ["6f2a9b3c-7e1d-4c5a-8b2f-3d4e7a1c5b9f"],
     "children": [
       "6be20491-8ad7-4821-aa10-991a5d5153bf",
@@ -748,5 +750,239 @@
     ],
 
     "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607482621/barnwellfamilytree/ellen-durande/ellen-r-durande-kinda-old_anl9ze.jpg"
+  },
+  {
+    "id": "d4f8a2c6-9e1b-4f7d-8c3a-5b9e2f1d7c4a",
+    "name": "John F. Herbert",
+    "gender": "male",
+    "birth": "1806",
+    "birthLocation": "Pennsylvania",
+    "death": "??",
+    "deathLocation": "??",
+    "fatherId": null,
+    "motherId": null,
+    "spouses": ["e7b3d9f1-2a5c-4e8b-9d6f-3c1a7e4b2d8f"],
+    "children": ["6f2a9b3c-7e1d-4c5a-8b2f-3d4e7a1c5b9f"]
+  },
+  {
+    "id": "e7b3d9f1-2a5c-4e8b-9d6f-3c1a7e4b2d8f",
+    "name": "Eliza Herbert",
+    "gender": "female",
+    "birth": "1808",
+    "birthLocation": "Pennsylvania",
+    "death": "??",
+    "deathLocation": "??",
+    "fatherId": null,
+    "motherId": null,
+    "spouses": ["d4f8a2c6-9e1b-4f7d-8c3a-5b9e2f1d7c4a"],
+    "children": ["6f2a9b3c-7e1d-4c5a-8b2f-3d4e7a1c5b9f"]
+  },
+
+  {
+    "id": "e4a1c7f3-8b5d-2a6e-9f1c-4b7d3a8e5f1c",
+    "name": "François Durand",
+    "gender": "male",
+    "birth": "04/03/1790",
+    "birthLocation": "Cronat, Saône-et-Loire, Bourgogne, France",
+    "death": "07/28/1953",
+    "deathLocation": "Mount Holly, Burlington, New Jersey, United States",
+    "fatherId": null,
+    "motherId": null,
+    "spouses": ["a9d5b1f3-7c2e-4a8d-6f1b-3e9c5a2d7f4b"],
+    "children": ["8c1e5b7a-2d4f-4b3c-9a6e-1f2d7c5a3b8e"],
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1751851604/barnwellfamilytree/Screenshot_2025-07-06_at_9.25.08_PM.png",
+    "occupation": "Laborer"
+  },
+
+  {
+    "id": "a9d5b1f3-7c2e-4a8d-6f1b-3e9c5a2d7f4b",
+    "name": "Marie Law",
+    "gender": "female",
+    "birth": "03/30/1795",
+    "birthLocation": "Philadelphia city, Philadelphia, Pennsylvania",
+    "death": "12/02/1872",
+    "deathLocation": "Mount Holly, Burlington, New Jersey, USA",
+    "fatherId": "c6e2a8f4-1d7b-3a9c-5e2f-8b4d1a6c9e3f",
+    "motherId": "e8a3d6f2-1c5b-4a9e-7d2f-3b6c1a8e5d9f",
+    "spouses": ["e4a1c7f3-8b5d-2a6e-9f1c-4b7d3a8e5f1c"],
+    "children": ["8c1e5b7a-2d4f-4b3c-9a6e-1f2d7c5a3b8e"]
+  },
+
+  {
+    "id": "c6e2a8f4-1d7b-3a9c-5e2f-8b4d1a6c9e3f",
+    "name": "Samuel C. Law",
+    "gender": "male",
+    "birth": "12/24/1768",
+    "birthLocation": "Rowley, Tipton, Staffordshire, England",
+    "death": "03/11/1837",
+    "deathLocation": "Philadelphia, Pennsylvania, USA",
+    "fatherId": "b7d4f1a6-2c9e-5a8d-3f2b-7c1e6a9d4f2b",
+    "motherId": "b4f7c1a9-3e6d-2a8f-5c1b-7e4d9a2f6c8b",
+    "spouses": ["e8a3d6f2-1c5b-4a9e-7d2f-3b6c1a8e5d9f"],
+    "children": ["a9d5b1f3-7c2e-4a8d-6f1b-3e9c5a2d7f4b"]
+  },
+
+  {
+    "id": "b4f7c1a9-3e6d-2a8f-5c1b-7e4d9a2f6c8b",
+    "name": "Bridget Oakes",
+    "gender": "female",
+    "birth": "1741",
+    "birthLocation": "Staffordshire County, England, United Kingdom",
+    "death": "??",
+    "deathLocation": "Rowley Regis, Staffordshire, England, United Kingdom",
+    "fatherId": null,
+    "motherId": null,
+    "spouses": ["b7d4f1a6-2c9e-5a8d-3f2b-7c1e6a9d4f2b"],
+    "children": ["c6e2a8f4-1d7b-3a9c-5e2f-8b4d1a6c9e3f"]
+  },
+
+  {
+    "id": "b7d4f1a6-2c9e-5a8d-3f2b-7c1e6a9d4f2b",
+    "name": "John Law",
+    "gender": "male",
+    "birth": "1741",
+    "birthLocation": "Staffordshire County, England, United Kingdom",
+    "death": "??",
+    "deathLocation": "Rowley Regis, Staffordshire, England, United Kingdom",
+    "fatherId": null,
+    "motherId": null,
+    "spouses": ["b4f7c1a9-3e6d-2a8f-5c1b-7e4d9a2f6c8b"],
+    "children": ["c6e2a8f4-1d7b-3a9c-5e2f-8b4d1a6c9e3f"]
+  },
+
+  {
+    "id": "e8a3d6f2-1c5b-4a9e-7d2f-3b6c1a8e5d9f",
+    "name": "Maria Mary Lewis",
+    "gender": "female",
+    "birth": "09/20/1770",
+    "birthLocation": "Philadelphia, Pennsylvania, USA",
+    "death": "03/02/1851",
+    "deathLocation": "Philadelphia, Pennsylvania, USA",
+    "fatherId": "b6d1f4a8-3c5e-7a2d-6f1c-4e8b2a5d9f3c",
+    "motherId": "d1f4a7c3-8b2e-5a6d-9f1c-4e7b3a1d6f8c",
+    "spouses": ["c6e2a8f4-1d7b-3a9c-5e2f-8b4d1a6c9e3f"],
+    "children": ["d1f4a7c3-8b2e-5a6d-9f1c-4e7b3a1d6f8c"]
+  },
+
+  {
+    "id": "b6d1f4a8-3c5e-7a2d-6f1c-4e8b2a5d9f3c",
+    "name": "Emanuel Lewis",
+    "gender": "male",
+    "birth": "1734",
+    "birthLocation": "Philadelphia, Delaware, Pennsylvania, United States",
+    "death": "05/19/1791",
+    "deathLocation": "Philadelphia, Philadelphia, Pennsylvania, United States",
+    "fatherId": null,
+    "motherId": null,
+    "spouses": ["a6c9e2f5-1d8b-3a4c-7e1f-2b5d8a3c6e9f"],
+    "children": ["e8a3d6f2-1c5b-4a9e-7d2f-3b6c1a8e5d9f"]
+  },
+
+  {
+    "id": "d1f4a7c3-8b2e-5a6d-9f1c-4e7b3a1d6f8c",
+    "name": "Margaretha Lewis Rothing",
+    "gender": "female",
+    "birth": "1738",
+    "birthLocation": "Philadelphia, Delaware, Pennsylvania, United States",
+    "death": "09/26/1828",
+    "deathLocation": "Rockhill, Bucksm Pennsylvania, United States",
+    "fatherId": null,
+    "motherId": null,
+    "spouses": ["b6d1f4a8-3c5e-7a2d-6f1c-4e8b2a5d9f3c"],
+    "children": ["e8a3d6f2-1c5b-4a9e-7d2f-3b6c1a8e5d9f"]
+  },
+  {
+    "id": "f3b8d1a4-6c2e-9a7d-4f1b-8c5e2a7d3f6b",
+    "name": "Margaret Flannery",
+    "gender": "female",
+    "birth": "1795",
+    "birthLocation": "Ireland",
+    "death": "05/10/1882",
+    "deathLocation": "New Brunswick City, Middlesex, New Jersey",
+    "fatherId": null,
+    "motherId": null,
+    "spouses": null,
+    "children": ["a1d4e6b8-3c2f-4e7a-9b1d-5f8c2e7a4b3d"]
+  },
+  {
+    "id": "c5e1a8f2-4d7b-1a3c-6e9f-5b2d7a4c1e8f",
+    "name": "Richard Barnwell",
+    "gender": "male",
+    "birth": "1796",
+    "birthLocation": "Kilmessan, Meath, Ireland",
+    "death": "02/12/1860",
+    "deathLocation": "Kilmessan, Meath, Ireland",
+    "fatherId": null,
+    "motherId": null,
+    "spouses": ["d8f2b5a1-6c3e-7a9d-4f1b-2c6e8a3d7f4b"],
+    "children": ["f9911a90-ba02-484a-93b4-ecd1e8d5e900"]
+  },
+  {
+    "id": "d8f2b5a1-6c3e-7a9d-4f1b-2c6e8a3d7f4b",
+    "name": "Mary Aughey",
+    "gender": "female",
+    "birth": "1805",
+    "birthLocation": "Kilmessan, Meath, Ireland",
+    "death": "05/04/1885",
+    "deathLocation": "Kilmessan, Meath, Ireland",
+    "fatherId": "a2c6e9f4-1d5b-8a3c-7e2f-6b4d1a9c5e7f",
+    "motherId": "f9b3d7a1-4c6e-2a8f-5d1b-7e4c9a2f6d8b",
+    "spouses": ["c5e1a8f2-4d7b-1a3c-6e9f-5b2d7a4c1e8f"],
+    "children": ["f9911a90-ba02-484a-93b4-ecd1e8d5e900"]
+  },
+
+  {
+    "id": "a2c6e9f4-1d5b-8a3c-7e2f-6b4d1a9c5e7f",
+    "name": "Thomas Aughey",
+    "gender": "male",
+    "birth": "??",
+    "birthLocation": "Killeen, Dunsany and Kilmessan, Meath, Ireland",
+    "death": "??",
+    "deathLocation": "Killeen, Dunsany and Kilmessan, Meath, Ireland",
+    "fatherId": null,
+    "motherId": null,
+    "spouses": ["f9b3d7a1-4c6e-2a8f-5d1b-7e4c9a2f6d8b"],
+    "children": ["d8f2b5a1-6c3e-7a9d-4f1b-2c6e8a3d7f4b"]
+  },
+  {
+    "id": "f9b3d7a1-4c6e-2a8f-5d1b-7e4c9a2f6d8b",
+    "name": "Elizabeth Forrelly",
+    "gender": "female",
+    "birth": "1780",
+    "birthLocation": "Ireland",
+    "death": "??",
+    "deathLocation": "Ireland",
+    "fatherId": null,
+    "motherId": null,
+    "spouses": ["a2c6e9f4-1d5b-8a3c-7e2f-6b4d1a9c5e7f"],
+    "children": ["d8f2b5a1-6c3e-7a9d-4f1b-2c6e8a3d7f4b"]
+  },
+
+  {
+    "id": "e7a4c1f6-2d8b-5a3e-8f2c-1b6d4a7e3f9b",
+    "name": "Hugh Boyne",
+    "gender": "male",
+    "birth": "1816",
+    "birthLocation": "Kilmessan, Meath, Ireland",
+    "death": "10/21/1859",
+    "deathLocation": "Kilmessan, Meath, Ireland",
+    "fatherId": null,
+    "motherId": null,
+    "spouses": ["a2c6e9f4-1d5b-8a3c-7e2f-6b4d1a9c5e7f"],
+    "children": ["b6e2c7a1-4f3e-4e2a-9c7d-2f8e1a5b7c21"]
+  },
+
+  {
+    "id": "c2e8a5f1-7d3b-4a6c-9e2f-1b5d7a3c8e4f",
+    "name": "Margaret Wilkenson",
+    "gender": "female",
+    "birth": "1812",
+    "birthLocation": "Kilmessan, Meath, Ireland",
+    "death": "11/09/1862",
+    "deathLocation": "Kilmessan, Meath, Ireland",
+    "fatherId": null,
+    "motherId": null,
+    "spouses": ["e7a4c1f6-2d8b-5a3e-8f2c-1b6d4a7e3f9b"],
+    "children": ["b6e2c7a1-4f3e-4e2a-9c7d-2f8e1a5b7c21"]
   }
 ]

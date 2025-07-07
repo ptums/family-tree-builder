@@ -8,10 +8,14 @@ export const familyData = data.map((node) => {
     .map((id) => ({ id, type: "blood" as const }));
 
   // Build children array
-  const children = node.children.map((id) => ({ id, type: "blood" as const }));
+  const children = node?.children?.map((id) => ({
+    id,
+    type: "blood" as const,
+  }));
 
   // Build spouses array
-  const spouses = node.spouses.map((id) => ({ id, type: "married" as const }));
+  const spouses =
+    node?.spouses?.map((id) => ({ id, type: "married" as const })) || [];
 
   // Siblings can be derived later; for now, leave empty
   const siblings = findSiblings(node as unknown as FamilyNode);
