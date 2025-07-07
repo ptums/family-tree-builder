@@ -3,15 +3,18 @@ import { DialogTitle } from "@headlessui/react";
 import LoadingIcon from "@/components/LoadingIcon";
 import dynamic from "next/dynamic";
 
-const CreateNodeForm = dynamic(() => import("./CreateNodeForm"), {
+const CreateNodeForm = dynamic(() => import("./create-node-form"), {
   loading: () => <LoadingIcon />,
   ssr: false,
 });
 
-const EditSelectedNodeForm = dynamic(() => import("./EditSelectedNodeForm"), {
-  loading: () => <LoadingIcon />,
-  ssr: false,
-});
+const EditSelectedNodeForm = dynamic(
+  () => import("./edit-selected-node-form"),
+  {
+    loading: () => <LoadingIcon />,
+    ssr: false,
+  }
+);
 
 const EditNode = () => {
   const { selectedNode, closeDialog, setSelectedSource } = useDialog();
