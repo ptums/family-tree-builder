@@ -31,9 +31,8 @@ const FamilyTree = ({ treeData }: { treeData: FamilyTreeNodes[] }) => {
     });
   }, []);
 
-  console.log("treeDataMemo", treeDataMemo);
   return (
-    <DialogProvider>
+    <>
       <div className="flex flex-col h-full">
         <h1 className="text-black text-2xl text-center font-bold mt-4">
           Barnwell Family Tree
@@ -69,7 +68,7 @@ const FamilyTree = ({ treeData }: { treeData: FamilyTreeNodes[] }) => {
         )}
       </div>
       <HelperText topPosition="bottom-8" />
-    </DialogProvider>
+    </>
   );
 };
 
