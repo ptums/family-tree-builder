@@ -1,34 +1,17 @@
-export type Gender = "male" | "female";
+// export type Gender = "male" | "female";
+import { Node } from "relatives-tree/lib/types";
 
-export type RelationshipType =
-  | "blood"
-  | "married"
-  | "divorced"
-  | "adopted"
-  | "half";
+export type FamilyNode = Node & NodeAdditionalDetails;
 
-export type FamilyNode = {
-  id: string;
+export type NodeAdditionalDetails = {
   name: string;
-  gender: Gender;
+
   birth: string;
   birthLocation: string;
   death: string;
   deathLocation: string;
   fatherId: string | null;
   motherId: string | null;
-  spouses: string[];
-  children: string[];
-  level: number;
-  parents: Array<{
-    id: string;
-    type: RelationshipType;
-  }>;
-  siblings: Array<{
-    id: string;
-    type: RelationshipType;
-  }>;
-  placeholder?: boolean;
   occupation?: string;
   profileImg?: string;
 };

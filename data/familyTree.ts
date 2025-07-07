@@ -14,7 +14,7 @@ export const familyData = data.map((node) => {
   const spouses = node.spouses.map((id) => ({ id, type: "married" as const }));
 
   // Siblings can be derived later; for now, leave empty
-  const siblings = findSiblings(node as FamilyNode);
+  const siblings = findSiblings(node as unknown as FamilyNode);
 
   return {
     id: node.id,

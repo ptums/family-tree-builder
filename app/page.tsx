@@ -1,11 +1,12 @@
 "use client";
 import ReactFamilyTree from "react-family-tree";
 import { familyData } from "@/data/familyTree";
-import FamilyNode from "@/components/FamilyNode";
 
 import { DialogProvider } from "@/contexts/DialogContext";
 import { useMemo } from "react";
 import ProfileDialog from "@/components/ProfileDialog";
+import { FamilyNode as FamilyTreeNodes } from "@/types/FamilyNode";
+import FamilyNode from "@/components/FamilyNode";
 
 const WIDTH = 220;
 const HEIGHT = 200;
@@ -31,7 +32,7 @@ export default function App() {
 const PageContent = ({ treeData }: any) => (
   <>
     <ReactFamilyTree
-      nodes={treeData as any}
+      nodes={treeData as FamilyTreeNodes[]}
       rootId={"c8eb1606-9628-4d8a-ad0d-ceb984519c53"}
       width={WIDTH}
       height={HEIGHT}
