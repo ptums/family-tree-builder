@@ -10,7 +10,8 @@
     "fatherId": "6ccd3216-9d88-4a10-93f9-94c891e1457d",
     "motherId": "fcb14af9-c2cd-4d3a-831c-e925bc91b1a0",
     "spouses": [],
-    "children": []
+    "children": [],
+    "occupation": "Tavern owner"
   },
   {
     "id": "26a1a17f-5d63-4b08-a30f-f9f8033270fd",
@@ -49,7 +50,8 @@
     "fatherId": "6ccd3216-9d88-4a10-93f9-94c891e1457d",
     "motherId": "fcb14af9-c2cd-4d3a-831c-e925bc91b1a0",
     "spouses": [],
-    "children": []
+    "children": [],
+    "occupation": "Policeman"
   },
   {
     "id": "42793f18-5f7a-49dc-ae6b-c612ab8d397f",
@@ -66,7 +68,7 @@
   },
   {
     "id": "0445669c-499c-437d-af63-844869e755f2",
-    "name": "Anna B Barnwell",
+    "name": "Anna B. Barnwell",
     "gender": "female",
     "birth": "08/26/1929",
     "birthLocation": "New Brunswick, Middlesex, New Jersey, USA",
@@ -75,7 +77,8 @@
     "fatherId": "6ccd3216-9d88-4a10-93f9-94c891e1457d",
     "motherId": "fcb14af9-c2cd-4d3a-831c-e925bc91b1a0",
     "spouses": [],
-    "children": []
+    "children": [],
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607435119/barnwellfamilytree/ann-barnwell/AnnBarnwellyoung_wr4pfc.jpg"
   },
   {
     "id": "fa8762a2-a1de-410d-aa30-fe2ff0af6db6",
@@ -83,12 +86,14 @@
     "gender": "male",
     "birth": "10/01/1938",
     "birthLocation": "New Brunswick, Middlesex, New Jersey, USA",
-    "death": "Living",
+
     "deathLocation": null,
     "fatherId": "6ccd3216-9d88-4a10-93f9-94c891e1457d",
     "motherId": "fcb14af9-c2cd-4d3a-831c-e925bc91b1a0",
     "spouses": [],
-    "children": []
+    "children": [],
+    "occupation": "Salesman",
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607435766/barnwellfamilytree/edwin-barnwell/EddyBarnwell_lcezcr.jpg"
   },
   {
     "id": "6ccd3216-9d88-4a10-93f9-94c891e1457d",
@@ -109,7 +114,8 @@
       "42793f18-5f7a-49dc-ae6b-c612ab8d397f",
       "0445669c-499c-437d-af63-844869e755f2",
       "fa8762a2-a1de-410d-aa30-fe2ff0af6db6"
-    ]
+    ],
+    "occupation": "Mason Foreman"
   },
   {
     "id": "eb7044cb-3580-486b-b84b-c899293300bb",
@@ -182,7 +188,9 @@
       "42793f18-5f7a-49dc-ae6b-c612ab8d397f",
       "0445669c-499c-437d-af63-844869e755f2",
       "fa8762a2-a1de-410d-aa30-fe2ff0af6db6"
-    ]
+    ],
+    "occupation": "School Teacher",
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607474274/barnwellfamilytree/anna-herbert/anna-herbert-old_qbbyqu.jpg"
   },
   {
     "id": "b7d3f14f-13df-4f42-9eca-09f0522da72d",
@@ -227,7 +235,8 @@
       "4dc06a61-77e4-40ef-80f1-a70e27d87ce5",
       "2f37c3fe-20db-48f1-85a3-58399ddf59b8",
       "12f6016e-942e-4dc5-bc6b-7cbcf1b1ec00"
-    ]
+    ],
+    "occupation": "Mason"
   },
   {
     "id": "4242196f-072d-4583-9d06-8c00b5fbb71a",
@@ -328,7 +337,8 @@
       "fcb14af9-c2cd-4d3a-831c-e925bc91b1a0",
       "b7d3f14f-13df-4f42-9eca-09f0522da72d",
       "ca2c4421-2f6f-437b-b7f6-501d1839fbf1"
-    ]
+    ],
+    "occupation": "Clerk, Printer, Real Estate Agent"
   },
   {
     "id": "0b0a0a00-2f05-42cf-bbcb-3a1e83537a27",
@@ -576,7 +586,8 @@
 
       "53397f6a-9517-4ba9-9314-a65b2a2ca272",
       "27a0c57f-cffe-4595-ad07-cf28d6fc2db7"
-    ]
+    ],
+    "occupation": "Day Laborer, Button factory worker, clerk"
   },
   {
     "id": "b6e2c7a1-4f3e-4e2a-9c7d-2f8e1a5b7c21",
@@ -695,7 +706,8 @@
       "604bcb9e-b70f-4ace-84ed-96b693580a94",
       "18a95a3f-9345-4e28-bbc0-3f9e558d5529",
       "7398c65f-29b1-4396-aa61-8ec6d71e5dab"
-    ]
+    ],
+    "occupation": "Cabinet Maker, Cordwainer (shoemaker), Butcher"
   },
   {
     "id": "8c1e5b7a-2d4f-4b3c-9a6e-1f2d7c5a3b8e",

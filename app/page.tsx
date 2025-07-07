@@ -2,16 +2,17 @@
 import ReactFamilyTree from "react-family-tree";
 import { familyData } from "@/data/familyTree";
 import FamilyNode from "@/components/FamilyNode";
-import ProfileDialog from "@/components/ProfileDialog";
+
 import { DialogProvider } from "@/contexts/DialogContext";
 import { useMemo } from "react";
+import ProfileDialog from "@/components/ProfileDialog";
 
 const WIDTH = 220;
 const HEIGHT = 200;
 
 export default function App() {
   const familyDataMemo = useMemo(() => familyData, []);
-  console.log({ familyDataMemo });
+
   return (
     <DialogProvider>
       <div className="flex flex-col h-full">

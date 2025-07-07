@@ -28,5 +28,7 @@ export const familyData = data.map((node) => {
     birthLocation: node?.birthLocation,
     death: node?.death,
     deathLocation: node?.deathLocation,
+    occupation: node?.occupation,
+    profileImg: node?.profileImg,
   };
 });

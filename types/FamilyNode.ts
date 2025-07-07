@@ -29,4 +29,6 @@ export type FamilyNode = {
     type: RelationshipType;
   }>;
   placeholder?: boolean;
+  occupation?: string;
+  profileImg?: string;
 };
