@@ -14,6 +14,7 @@ import DarkBanner from "./DarkBanner";
 
 const WIDTH = 220;
 const HEIGHT = 200;
+const ROOT_NODE_ID = "f5c153e7-2916-404e-8233-3f222e7e7864";
 
 const HelperText = dynamic(() => import("@/components/HelperText"), {
   loading: () => <LoadingIcon />,
@@ -21,17 +22,27 @@ const HelperText = dynamic(() => import("@/components/HelperText"), {
 });
 
 const FamilyTree = ({ treeData }: { treeData: FamilyTreeNodes[] }) => {
-  // TODO: Sort by birthday
   const treeDataMemo = useMemo(() => treeData, []);
 
-  // Scroll to bottom and center horizontally on page load/refresh
-  // TODO: Change this so that id: "f5c153e7-2916-404e-8233-3f222e7e7864" is the main focus
+  // Scroll to the specific node and center it on the page
   useEffect(() => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      left: document.documentElement.scrollWidth / 5,
-      behavior: "instant",
-    });
+    const targetElement = document.getElementById(ROOT_NODE_ID);
+    if (targetElement) {
+      const rect = targetElement.getBoundingClientRect();
+      const scrollTop =
+        window.pageYOffset +
+        rect.top -
+        window.innerHeight / 2 +
+        rect.height / 2;
+      const scrollLeft =
+        window.pageXOffset + rect.left - window.innerWidth / 2 + rect.width / 2;
+
+      window.scrollTo({
+        top: scrollTop,
+        left: scrollLeft,
+        behavior: "instant",
+      });
+    }
   }, []);
 
   return (
@@ -44,7 +55,7 @@ const FamilyTree = ({ treeData }: { treeData: FamilyTreeNodes[] }) => {
         <>
           <ReactFamilyTree
             nodes={treeDataMemo}
-            rootId={"f5c153e7-2916-404e-8233-3f222e7e7864"}
+            rootId={ROOT_NODE_ID}
             width={WIDTH}
             height={HEIGHT}
             renderNode={(node) => (

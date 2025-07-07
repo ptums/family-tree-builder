@@ -1,6 +1,12 @@
 import { FamilyNode } from "@/types/FamilyNode";
-import React, { useMemo, useState, useEffect, useRef } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useFormContext, Controller } from "react-hook-form";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxOption,
+  ComboboxOptions,
+} from "@headlessui/react";
 
 // ParentSelect component
 const ParentSelect = ({
@@ -16,96 +22,74 @@ const ParentSelect = ({
   gender: "male" | "female";
   parentId: string | null;
 }) => {
-  const { control, getValues, setValue } = useFormContext();
-  const [search, setSearch] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  // get the current member for a placeholder
-  const currentMember = useMemo(() => {
-    return members.find((m) => m.id.includes(parentId as string));
-  }, [members, parentId]);
-  console.log({
-    currentMember,
-  });
-  // Find the selected member by id to show their name in the input
-  useEffect(() => {
-    const id = getValues(name);
-    if (id) {
-      const member = members.find((m) => m.id === id);
-      if (member) setSearch(member.name);
-    }
-  }, [getValues, members, name]);
-
-  const filtered = useMemo(
-    () =>
-      members.filter(
-        (m) =>
-          m.gender === gender &&
-          m.name.toLowerCase().includes(search.toLowerCase())
-      ),
-    [members, gender, search]
+  const { control } = useFormContext();
+  // Find the selected member by id
+  const selectedMember = useMemo(
+    () => members.find((m) => m.id === parentId) || null,
+    [members, parentId]
   );
+  const [query, setQuery] = useState("");
 
-  // Handle click outside to close dropdown
+  // Filter members by gender and query
+  const filteredMembers = useMemo(() => {
+    return members.filter(
+      (m) =>
+        m.gender === gender &&
+        m.name.toLowerCase().includes(query.toLowerCase())
+    );
+  }, [members, gender, query]);
+
+  // Keep the input in sync with the selected member
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        inputRef.current &&
-        !inputRef.current.contains(event.target as Node)
-      ) {
-        setShowDropdown(false);
-      }
-    }
-    if (showDropdown) {
-      document.addEventListener("mousedown", handleClickOutside);
+    if (selectedMember) {
+      setQuery(selectedMember.name);
     } else {
-      document.removeEventListener("mousedown", handleClickOutside);
+      setQuery("");
     }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showDropdown]);
+  }, [selectedMember]);
 
   return (
     <Controller
       control={control}
       name={name}
       render={({ field }) => (
-        <div className="flex flex-col relative">
+        <div className="flex flex-col my-1">
           <label className="font-semibold mb-1">{label}</label>
-          <input
-            ref={inputRef}
-            type="text"
-            placeholder={`${currentMember?.name || "Search for parent..."}`}
-            value={search}
-            onFocus={() => setShowDropdown(true)}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setShowDropdown(true);
-              // If user types, clear the field value
-              field.onChange("");
+          <Combobox
+            value={field?.value}
+            onChange={(person) => {
+              field.onChange(person ? person.id : "");
             }}
-            className="border rounded px-2 py-1 mb-1"
-            autoComplete="off"
-          />
-          {showDropdown && filtered.length > 0 && (
-            <ul className="absolute z-10 bg-white border rounded w-full max-h-40 overflow-y-auto shadow">
-              {filtered.map((m) => (
-                <li
-                  key={m.id}
-                  className="px-2 py-1 cursor-pointer hover:bg-blue-100"
-                  onClick={() => {
-                    setSearch(m.name);
-                    field.onChange(m.id);
-                    setShowDropdown(false);
-                  }}
-                >
-                  {m.name}
-                </li>
-              ))}
-            </ul>
-          )}
+          >
+            <ComboboxInput
+              className="border w-full px-2 py-1 rounded"
+              onChange={(event) => setQuery(event.target.value)}
+              displayValue={(person: FamilyNode) => {
+                console.log("Person: ", person);
+                return person?.name;
+              }}
+              placeholder={`Search for ${label.toLowerCase()}...`}
+            />
+            <ComboboxOptions className="border rounded mt-1 bg-white z-10 max-h-40 overflow-y-auto">
+              {filteredMembers.length === 0 ? (
+                <div className="p-2 text-gray-500">No results found.</div>
+              ) : (
+                filteredMembers.map((person) => (
+                  <ComboboxOption
+                    key={person.id}
+                    value={person}
+                    className={({ active }: { active: boolean }) =>
+                      `cursor-pointer px-2 py-1 ${
+                        active ? "bg-blue-100" : "bg-white"
+                      }`
+                    }
+                  >
+                    {person.name}
+                  </ComboboxOption>
+                ))
+              )}
+            </ComboboxOptions>
+          </Combobox>
         </div>
       )}
     />
