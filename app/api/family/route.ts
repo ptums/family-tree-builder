@@ -40,3 +40,47 @@ export async function GET() {
 
   return NextResponse.json(familyData);
 }
+
+export async function POST(request: Request) {
+  const data = await request.json();
+  const {
+    id,
+    name,
+    birth,
+    birthLocation,
+    death,
+    deathLocation,
+    fatherId,
+    motherId,
+    occupation,
+    profileImg,
+  } = data;
+
+  if (id) {
+    // Update existing node
+    await sql`
+      UPDATE family_node SET
+        name = ${name},
+        birth = ${birth},
+        birthLocation = ${birthLocation},
+        death = ${death},
+        deathLocation = ${deathLocation},
+        fatherId = ${fatherId},
+        motherId = ${motherId},
+        occupation = ${occupation},
+        profileImg = ${profileImg}
+      WHERE id = ${id}
+    `;
+    return NextResponse.json({ message: "Node updated" });
+  } else {
+    // Create new node
+    const result = await sql`
+      INSERT INTO family_node (
+        name, birth, birthLocation, death, deathLocation, fatherId, motherId, occupation, profileImg
+      ) VALUES (
+        ${name}, ${birth}, ${birthLocation}, ${death}, ${deathLocation}, ${fatherId}, ${motherId}, ${occupation}, ${profileImg}
+      ) RETURNING id
+    `;
+    return NextResponse.json({ message: "Node created", id: result[0]?.id });
+  }
+}

@@ -10,6 +10,7 @@ import {
 import { get, set } from "idb-keyval";
 import { DialogProvider } from "@/contexts/DialogContext";
 import LoadingIcon from "@/components/LoadingIcon";
+import { FormProvider, useForm } from "react-hook-form";
 
 const queryClient = new QueryClient();
 
@@ -31,12 +32,15 @@ function useFamilyData() {
 }
 
 export default function App() {
+  const methods = useForm();
   return (
-    <QueryClientProvider client={queryClient}>
-      <DialogProvider>
-        <FamilyTreeWithQuery />
-      </DialogProvider>
-    </QueryClientProvider>
+    <FormProvider {...methods}>
+      <QueryClientProvider client={queryClient}>
+        <DialogProvider>
+          <FamilyTreeWithQuery />
+        </DialogProvider>
+      </QueryClientProvider>
+    </FormProvider>
   );
 }
 

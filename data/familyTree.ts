@@ -81,6 +81,8 @@ export const normalizeDBFamilyData = (data: any) => {
       deathLocation: node?.deathlocation,
       occupation: node?.occupation,
       profileImg: node?.profileimg,
+      fatherId: node?.fatherid,
+      motherId: node?.motherid,
     };
   });
 };
