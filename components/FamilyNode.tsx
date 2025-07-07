@@ -7,6 +7,7 @@ const FamilyNode = ({ node, style }: any) => {
   const { openDialog } = useDialog();
   return (
     <div
+      id={node?.id}
       className="absolute flex p-4 items-center justify-center"
       style={style}
       onClick={() =>

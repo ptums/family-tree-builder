@@ -1,75 +1,59 @@
-"use client";
-import ReactFamilyTree from "react-family-tree";
-import { familyData } from "@/data/familyTree";
+import FamilyTree from "@/components/FamilyTree";
+import { normalDBFamilyData } from "@/data/familyTree";
+import { FamilyNode } from "@/types/FamilyNode";
 
-import { DialogProvider } from "@/contexts/DialogContext";
-import { useMemo, useEffect } from "react";
-import ProfileDialog from "@/components/ProfileDialog";
-import { FamilyNode as FamilyTreeNodes } from "@/types/FamilyNode";
-import FamilyNode from "@/components/FamilyNode";
-import dynamic from "next/dynamic";
-import LoadingIcon from "@/components/LoadingIcon";
+const { neon } = require("@neondatabase/serverless");
+require("dotenv/config");
 
-const WIDTH = 220;
-const HEIGHT = 200;
+const DATABASE_URL = process.env.DATABASE_URL;
+const sql = neon(DATABASE_URL);
 
-const HelperText = dynamic(() => import("@/components/HelperText"), {
-  loading: () => <LoadingIcon />,
-  ssr: false,
-});
+let cachedFamilyData: FamilyNode[] = [];
 
-export default function App() {
-  // TODO: Sort by birthday
-  const familyDataMemo = useMemo(() => familyData, []);
+async function getData(): Promise<FamilyNode[]> {
+  if (cachedFamilyData.length > 0) return cachedFamilyData;
+  // Fetch all nodes
+  const nodes = await sql`
+    SELECT * FROM family_node
+  `;
 
-  // Scroll to bottom and center horizontally on page load/refresh
-  // TODO: Change this so that id: "f5c153e7-2916-404e-8233-3f222e7e7864" is the main focus
-  useEffect(() => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      left: document.documentElement.scrollWidth / 5,
-      behavior: "instant",
-    });
-  }, []);
+  // Fetch all spouses
+  const spouses = await sql`
+    SELECT node_id, spouse_id FROM spouse
+  `;
 
-  return (
-    <DialogProvider>
-      <div className="flex flex-col h-full">
-        <h1 className="text-black text-2xl text-center font-bold mt-4">
-          Barnwell Family Tree
-        </h1>
-        <HelperText topPosition="top-4" />
+  // Fetch all children
+  const children = await sql`
+    SELECT parent_id, child_id FROM child
+  `;
 
-        <PageContent
-          treeData={familyDataMemo as unknown as FamilyTreeNodes[]}
-        />
-      </div>
-      <HelperText topPosition="bottom-8" />
-    </DialogProvider>
-  );
+  // Build maps for relationships
+  const spouseMap = new Map();
+  for (const { node_id, spouse_id } of spouses) {
+    if (!spouseMap.has(node_id)) spouseMap.set(node_id, []);
+    spouseMap.get(node_id).push(spouse_id);
+    // Also add reverse for bidirectional
+    if (!spouseMap.has(spouse_id)) spouseMap.set(spouse_id, []);
+    spouseMap.get(spouse_id).push(node_id);
+  }
+
+  const childMap = new Map();
+  for (const { parent_id, child_id } of children) {
+    if (!childMap.has(parent_id)) childMap.set(parent_id, []);
+    childMap.get(parent_id).push(child_id);
+  }
+
+  // Attach relationships to nodes
+  cachedFamilyData = nodes.map((node: any) => ({
+    ...node,
+    spouses: spouseMap.get(node.id) || [],
+    children: childMap.get(node.id) || [],
+  }));
+  return cachedFamilyData;
 }
 
-const PageContent = ({ treeData }: { treeData: FamilyTreeNodes[] }) => (
-  <>
-    <ReactFamilyTree
-      nodes={treeData.reverse()}
-      rootId={"f5c153e7-2916-404e-8233-3f222e7e7864"}
-      width={WIDTH}
-      height={HEIGHT}
-      renderNode={(node) => (
-        <FamilyNode
-          key={node.id}
-          node={node}
-          style={{
-            width: WIDTH,
-            height: HEIGHT,
-            transform: `translate(${node.left * (WIDTH / 2)}px, ${
-              node.top * (HEIGHT / 2)
-            }px)`,
-          }}
-        />
-      )}
-    />
-    <ProfileDialog />
-  </>
-);
+export default async function App() {
+  const familyData = await getData();
+  const normalFamilyData = normalDBFamilyData(familyData);
+  return <FamilyTree treeData={normalFamilyData as unknown as FamilyNode[]} />;
+}

@@ -36,3 +36,41 @@ export const familyData = data.map((node) => {
     profileImg: node?.profileImg,
   };
 });
+
+export const normalDBFamilyData = (data: any) => {
+  return data.map((node: any) => {
+    const parents = [node.fatherid, node.motherid]
+      .filter((id): id is string => Boolean(id))
+      .map((id) => ({ id, type: "blood" as const }));
+
+    // Build children array
+    const children = node?.children?.map((id: string) => ({
+      id,
+      type: "blood" as const,
+    }));
+
+    // Build spouses array
+    const spouses =
+      node?.spouses?.map((id: string) => ({ id, type: "married" as const })) ||
+      [];
+
+    // Siblings can be derived later; for now, leave empty
+    const siblings = findSiblings(node as unknown as FamilyNode);
+
+    return {
+      id: node.id,
+      gender: node.gender,
+      parents,
+      children,
+      spouses,
+      siblings,
+      name: node.name,
+      birth: node?.birth,
+      birthLocation: node?.birthlocation,
+      death: node?.death,
+      deathLocation: node?.deathlocation,
+      occupation: node?.occupation,
+      profileImg: node?.profileimg,
+    };
+  });
+};
