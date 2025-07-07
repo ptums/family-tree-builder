@@ -1,10 +1,11 @@
 import React, { memo } from "react";
-import { SourceKeys, SOURCES, useDialog } from "@/contexts/DialogContext";
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { SOURCES, useDialog } from "@/contexts/DialogContext";
+import { DialogTitle } from "@headlessui/react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import classNames from "classnames";
 import LoadingIcon from "../../LoadingIcon";
+import { SourceKeys } from "@/types/DialogContext";
 
 const ProfileList = dynamic(() => import("./ProfileList"), {
   loading: () => <LoadingIcon />,

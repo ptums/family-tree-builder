@@ -1,4 +1,5 @@
-import { SourceKeys, SOURCES, useDialog } from "@/contexts/DialogContext";
+import { SOURCES, useDialog } from "@/contexts/DialogContext";
+import { SourceKeys } from "@/types/DialogContext";
 import classNames from "classnames";
 
 const HELPER_TEXT = [

@@ -1,7 +1,8 @@
-import { SourceKeys, SOURCES, useDialog } from "@/contexts/DialogContext";
+import { SOURCES, useDialog } from "@/contexts/DialogContext";
 import { DialogTitle } from "@headlessui/react";
 import LoadingIcon from "@/components/LoadingIcon";
 import dynamic from "next/dynamic";
+import { SourceKeys } from "@/types/DialogContext";
 
 const CreateNodeForm = dynamic(() => import("./create-node-form"), {
   loading: () => <LoadingIcon />,

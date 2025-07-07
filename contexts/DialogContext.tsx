@@ -1,9 +1,15 @@
 "use client";
 
 import LoadingIcon from "@/components/LoadingIcon";
+import {
+  DialogContextType,
+  SourceKeys,
+  DialogProviderProps,
+  SourceType,
+} from "@/types/DialogContext";
 import { FamilyNode } from "@/types/FamilyNode";
 import dynamic from "next/dynamic";
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 const EditNode = dynamic(() => import("@/components/ProfileDialog/EditNode"), {
   loading: () => <LoadingIcon />,
@@ -17,30 +23,6 @@ const NodeProfile = dynamic(
     ssr: false,
   }
 );
-
-export enum SourceKeys {
-  NODE_PROFILE = "node-profile",
-  EDIT_NODE = "edit-node",
-}
-
-interface SourceType {
-  key: SourceKeys;
-  component: React.ComponentType<any>;
-}
-
-interface DialogProviderProps {
-  children: ReactNode;
-}
-
-interface DialogContextType {
-  isOpen: boolean;
-  selectedNode: FamilyNode | null;
-  openDialog: (node: FamilyNode | null, source: SourceType) => void;
-  closeDialog: () => void;
-  setSelectedNode: (node: FamilyNode) => void;
-  selectedSource: SourceType;
-  setSelectedSource: (node: SourceType) => void;
-}
 
 const DialogContext = createContext<DialogContextType | undefined>(undefined);
 

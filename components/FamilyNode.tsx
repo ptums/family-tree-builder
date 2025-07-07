@@ -1,5 +1,7 @@
 "use client";
-import { SourceKeys, SOURCES, useDialog } from "@/contexts/DialogContext";
+import { SourceKeys } from "@/types/DialogContext";
+
+import { SOURCES, useDialog } from "@/contexts/DialogContext";
 
 const FamilyNode = ({ node, style }: any) => {
   const { openDialog } = useDialog();
