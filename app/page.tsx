@@ -19,9 +19,11 @@ const HelperText = dynamic(() => import("@/components/HelperText"), {
 });
 
 export default function App() {
+  // TODO: Sort by birthday
   const familyDataMemo = useMemo(() => familyData, []);
 
   // Scroll to bottom and center horizontally on page load/refresh
+  // TODO: Change this so that id: "f5c153e7-2916-404e-8233-3f222e7e7864" is the main focus
   useEffect(() => {
     window.scrollTo({
       top: document.documentElement.scrollHeight,
@@ -51,7 +53,7 @@ const PageContent = ({ treeData }: { treeData: FamilyTreeNodes[] }) => (
   <>
     <ReactFamilyTree
       nodes={treeData.reverse()}
-      rootId={"c8eb1606-9628-4d8a-ad0d-ceb984519c53"}
+      rootId={"f5c153e7-2916-404e-8233-3f222e7e7864"}
       width={WIDTH}
       height={HEIGHT}
       renderNode={(node) => (

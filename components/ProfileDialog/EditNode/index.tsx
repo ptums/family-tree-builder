@@ -4,18 +4,10 @@ import LoadingIcon from "@/components/LoadingIcon";
 import dynamic from "next/dynamic";
 import { SourceKeys } from "@/types/DialogContext";
 
-const CreateNodeForm = dynamic(() => import("./create-node-form"), {
+const NodeForm = dynamic(() => import("./Forms"), {
   loading: () => <LoadingIcon />,
   ssr: false,
 });
-
-const EditSelectedNodeForm = dynamic(
-  () => import("./edit-selected-node-form"),
-  {
-    loading: () => <LoadingIcon />,
-    ssr: false,
-  }
-);
 
 const EditNode = () => {
   const { selectedNode, closeDialog, setSelectedSource } = useDialog();
@@ -32,7 +24,7 @@ const EditNode = () => {
         )}
       </DialogTitle>
 
-      {selectedNode ? <EditSelectedNodeForm /> : <CreateNodeForm />}
+      <NodeForm />
       <div className="border-t p-4 mt-8 flex sm:flex-row justify-between">
         <button
           className="bg-red-600 rounded-full text-white py-1 px-4 cursor-pointer hover:bg-red-500"
