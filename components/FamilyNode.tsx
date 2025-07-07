@@ -12,7 +12,8 @@ const FamilyNode = ({ node, style }: any) => {
       <div className="border bg-white p-2 rounded cursor-pointer hover:shadow-lg">
         <p className="text-sm">{node?.name}</p>
         <p className="text-xs">
-          B: {node?.birth} | D: {node?.death}
+          <span>{node?.birth && <>B: {node?.birth}</>}</span>
+          <span>{node?.death && <> | D: {node?.death}</>}</span>
         </p>
       </div>
     </div>

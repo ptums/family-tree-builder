@@ -37,7 +37,9 @@
     "fatherId": "6ccd3216-9d88-4a10-93f9-94c891e1457d",
     "motherId": "fcb14af9-c2cd-4d3a-831c-e925bc91b1a0",
     "spouses": [],
-    "children": []
+    "children": [],
+    "occupation": "Scientist",
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607433261/barnwellfamilytree/john-barnwell-jr/johnjjosephbarnwelljr_djfmfe.jpg"
   },
   {
     "id": "62ef80d6-7a02-4517-9a8c-6b2c2d91645f",
@@ -64,7 +66,8 @@
     "fatherId": "6ccd3216-9d88-4a10-93f9-94c891e1457d",
     "motherId": "fcb14af9-c2cd-4d3a-831c-e925bc91b1a0",
     "spouses": [],
-    "children": []
+    "children": [],
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607434759/barnwellfamilytree/mary-barnwell/marybarnwellweddingphoto_u06jm8.jpg"
   },
   {
     "id": "0445669c-499c-437d-af63-844869e755f2",
@@ -115,7 +118,8 @@
       "0445669c-499c-437d-af63-844869e755f2",
       "fa8762a2-a1de-410d-aa30-fe2ff0af6db6"
     ],
-    "occupation": "Mason Foreman"
+    "occupation": "Mason Foreman",
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607473738/barnwellfamilytree/john-barnwell-sr/john-barnwell-middle-age_iwsezz.jpg"
   },
   {
     "id": "eb7044cb-3580-486b-b84b-c899293300bb",
@@ -338,7 +342,8 @@
       "b7d3f14f-13df-4f42-9eca-09f0522da72d",
       "ca2c4421-2f6f-437b-b7f6-501d1839fbf1"
     ],
-    "occupation": "Clerk, Printer, Real Estate Agent"
+    "occupation": "Clerk, Printer, Real Estate Agent",
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607476694/barnwellfamilytree/edwin-w-herbert/edwin-w-herbert_durunb.jpg"
   },
   {
     "id": "0b0a0a00-2f05-42cf-bbcb-3a1e83537a27",
@@ -606,7 +611,8 @@
       "f9911a90-ba02-484a-93b4-ecd1e8d5e900",
       "53397f6a-9517-4ba9-9314-a65b2a2ca272",
       "27a0c57f-cffe-4595-ad07-cf28d6fc2db7"
-    ]
+    ],
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607478297/barnwellfamilytree/margaret-boyne/margaret-boyne-old_vtixe5.jpg"
   },
   {
     "id": "e3b7c2d4-8f1a-4b6e-9c2a-7d5f1e3b4c2a",
@@ -626,7 +632,8 @@
       "b2ca075a-ddc0-4d83-8f14-d3b0605dee80",
       "3329af25-5621-433d-a6b2-e9fb981d7bd3",
       "f7c2b1e4-9d3a-4f6b-8e2c-1a5d7b3c6e8f"
-    ]
+    ],
+    "occupation": "Carpenter"
   },
   {
     "id": "a1d4e6b8-3c2f-4e7a-9b1d-5f8c2e7a4b3d",
@@ -707,7 +714,8 @@
       "18a95a3f-9345-4e28-bbc0-3f9e558d5529",
       "7398c65f-29b1-4396-aa61-8ec6d71e5dab"
     ],
-    "occupation": "Cabinet Maker, Cordwainer (shoemaker), Butcher"
+    "occupation": "Cabinet Maker, Cordwainer (shoemaker), Butcher",
+    "profileImg": "https://res.cloudinary.com/tumulty-web-services/image/upload/v1607481515/barnwellfamilytree/john-b-herbert/JohnBHerbert_xmxtdj.jpg"
   },
   {
     "id": "8c1e5b7a-2d4f-4b3c-9a6e-1f2d7c5a3b8e",

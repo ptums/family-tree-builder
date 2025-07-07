@@ -3,6 +3,7 @@ import { useDialog } from "@/contexts/DialogContext";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import classNames from "classnames";
 
 const LoadingIcon = memo(() => (
   <div className="flex items-center justify-center p-4">
@@ -60,32 +61,41 @@ const ProfileDialog = () => {
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
         <DialogPanel className="w-full max-w-3xl space-y-4 border bg-white p-12">
           <DialogTitle className="font-bold">{selectedNode?.name}</DialogTitle>
-          {selectedNode?.profileImg && (
-            <Image
-              src={selectedNode?.profileImg as string}
-              alt={selectedNode?.name as string}
-              width={200}
-              height={200}
-            />
-          )}
-          <div>
-            {selectedNode?.birth && (
-              <ProfileFact
-                title="Born"
-                fact={`${selectedNode?.birth} - ${selectedNode?.birthLocation}`}
+          <div className="w-full flex sm:flex-row">
+            {selectedNode?.profileImg && (
+              <Image
+                src={selectedNode?.profileImg as string}
+                alt={selectedNode?.name as string}
+                width={200}
+                height={200}
               />
             )}
+            <div
+              className={classNames({
+                "sm:mx-4": selectedNode?.profileImg,
+              })}
+            >
+              {selectedNode?.birth && (
+                <ProfileFact
+                  title="Born"
+                  fact={`${selectedNode?.birth} - ${selectedNode?.birthLocation}`}
+                />
+              )}
 
-            {selectedNode?.death && (
-              <ProfileFact
-                title="Death"
-                fact={`${selectedNode?.death} - ${selectedNode?.deathLocation}`}
-              />
-            )}
+              {selectedNode?.death && (
+                <ProfileFact
+                  title="Death"
+                  fact={`${selectedNode?.death} - ${selectedNode?.deathLocation}`}
+                />
+              )}
 
-            {selectedNode?.occupation && (
-              <ProfileFact title="Occupation" fact={selectedNode?.occupation} />
-            )}
+              {selectedNode?.occupation && (
+                <ProfileFact
+                  title="Occupation"
+                  fact={selectedNode?.occupation}
+                />
+              )}
+            </div>
           </div>
           <div className="w-full flex sm:flex-row">
             {hasParents && (
@@ -121,7 +131,7 @@ const ProfileDialog = () => {
           </div>
           <div className="border-t p-4 mt-8">
             <button
-              className="bg-purple-500 rounded-full text-white py-1 px-4 cursor-pointer hover:bg-purple-600"
+              className="bg-blue-600 rounded-full text-white py-1 px-4 cursor-pointer hover:bg-blue-500"
               onClick={() => closeDialog()}
             >
               Close
