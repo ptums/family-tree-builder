@@ -21,18 +21,20 @@ export default function App() {
           Barnwell Family Tree
         </h1>
         <p className="text-sm text-center">
-          Click on persons name for more details
+          Click on person's name for more details
         </p>
-        <PageContent treeData={familyDataMemo} />
+        <PageContent
+          treeData={familyDataMemo as unknown as FamilyTreeNodes[]}
+        />
       </div>
     </DialogProvider>
   );
 }
 
-const PageContent = ({ treeData }: any) => (
+const PageContent = ({ treeData }: { treeData: FamilyTreeNodes[] }) => (
   <>
     <ReactFamilyTree
-      nodes={treeData as FamilyTreeNodes[]}
+      nodes={treeData}
       rootId={"c8eb1606-9628-4d8a-ad0d-ceb984519c53"}
       width={WIDTH}
       height={HEIGHT}
