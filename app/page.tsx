@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-query";
 import { get, set } from "idb-keyval";
 import { DialogProvider } from "@/contexts/DialogContext";
+import LoadingIcon from "@/components/LoadingIcon";
 
 const queryClient = new QueryClient();
 
@@ -41,7 +42,7 @@ export default function App() {
 
 function FamilyTreeWithQuery() {
   const { data, isLoading, error } = useFamilyData();
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingIcon />;
   if (error) return <div>Error loading family data</div>;
   const normalFamilyData = normalDBFamilyData(data as FamilyNode[]);
   return <FamilyTree treeData={normalFamilyData as unknown as FamilyNode[]} />;

@@ -1,5 +1,6 @@
 import { memo } from "react";
 
+// TODO: Make this the center of the screen
 const LoadingIcon = memo(() => (
   <div className="flex items-center justify-center p-4">
     <svg
