@@ -7,14 +7,16 @@ import { useMemo, useEffect } from "react";
 import ProfileDialog from "@/components/ProfileDialog";
 import { FamilyNode as FamilyTreeNodes } from "@/types/FamilyNode";
 import FamilyNode from "@/components/FamilyNode";
+import dynamic from "next/dynamic";
+import LoadingIcon from "@/components/LoadingIcon";
 
 const WIDTH = 220;
 const HEIGHT = 200;
 
-const HELPER_TEXT = [
-  "* Click person's name for more details",
-  "* Move mouse left & right and scroll to view all of the tree",
-];
+const HelperText = dynamic(() => import("@/components/HelperText"), {
+  loading: () => <LoadingIcon />,
+  ssr: false,
+});
 
 export default function App() {
   const familyDataMemo = useMemo(() => familyData, []);
@@ -34,18 +36,13 @@ export default function App() {
         <h1 className="text-black text-2xl text-center font-bold mt-4">
           Barnwell Family Tree
         </h1>
-        <p className="text-sm text-center">{HELPER_TEXT[0]}</p>
+        <HelperText topPosition="top-4" />
+
         <PageContent
           treeData={familyDataMemo as unknown as FamilyTreeNodes[]}
         />
       </div>
-      <div className="relative left-2/5 bottom-8">
-        {HELPER_TEXT.map((txt) => (
-          <p key={txt} className="text-sm font-bold">
-            {txt}
-          </p>
-        ))}
-      </div>
+      <HelperText topPosition="bottom-8" />
     </DialogProvider>
   );
 }
