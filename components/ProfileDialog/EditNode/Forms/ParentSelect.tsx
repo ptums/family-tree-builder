@@ -7,46 +7,39 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/react";
+import { SlimMember } from "@/types/ParentSelect";
 
 // ParentSelect component
 const ParentSelect = ({
   label,
   name,
   members,
-  gender,
-  parentId = null,
+  parent,
+  selectedMemberName,
 }: {
   label: string;
-  name: "fatherId" | "motherId";
-  members: FamilyNode[];
-  gender: "male" | "female";
-  parentId: string | null;
+  name: "father" | "mother";
+  members: SlimMember[];
+  parent: SlimMember;
+  selectedMemberName: string;
 }) => {
   const { control } = useFormContext();
-  // Find the selected member by id
-  const selectedMember = useMemo(
-    () => members.find((m) => m.id === parentId) || null,
-    [members, parentId]
-  );
+
   const [query, setQuery] = useState("");
 
-  // Filter members by gender and query
+  // // Filter members by gender and query
   const filteredMembers = useMemo(() => {
-    return members.filter(
-      (m) =>
-        m.gender === gender &&
-        m.name.toLowerCase().includes(query.toLowerCase())
+    return members.filter((m) =>
+      m.name.toLowerCase().includes(query.toLowerCase())
     );
-  }, [members, gender, query]);
+  }, [members, query]);
 
-  // Keep the input in sync with the selected member
+  // // Keep the input in sync with the selected member
   useEffect(() => {
-    if (selectedMember) {
-      setQuery(selectedMember.name);
-    } else {
-      setQuery("");
+    if (selectedMemberName) {
+      setQuery(selectedMemberName);
     }
-  }, [selectedMember]);
+  }, [selectedMemberName]);
 
   return (
     <Controller
@@ -54,21 +47,31 @@ const ParentSelect = ({
       name={name}
       render={({ field }) => (
         <div className="flex flex-col my-1">
-          <label className="font-semibold mb-1">{label}</label>
+          <label htmlFor={field?.name} className="font-semibold mb-1">
+            {label}
+          </label>
           <Combobox
             value={field?.value}
             onChange={(person) => {
-              field.onChange(person ? person.id : "");
+              console.log("Combobox onChange", person);
+              field.onChange(person ? person : "");
             }}
           >
             <ComboboxInput
+              id={field?.name}
               className="border w-full px-2 py-1 rounded"
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={(event) => {
+                console.log("ComboboxInput onChange: ", event.target.value);
+                setQuery(event.target.value);
+              }}
               displayValue={(person: FamilyNode) => {
-                console.log("Person: ", person);
+                console.log("ComboboxInput displayValue: ", person);
+
                 return person?.name;
               }}
-              placeholder={`Search for ${label.toLowerCase()}...`}
+              placeholder={
+                parent?.name || `Search for ${label.toLowerCase()}...`
+              }
             />
             <ComboboxOptions className="border rounded mt-1 bg-white z-10 max-h-40 overflow-y-auto">
               {filteredMembers.length === 0 ? (

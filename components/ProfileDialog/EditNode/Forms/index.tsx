@@ -1,8 +1,9 @@
 import { FamilyNode } from "@/types/FamilyNode";
-import { useForm, useFormContext, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import ParentSelect from "./ParentSelect";
+import { SlimMember } from "@/types/ParentSelect";
 
 const NODE_FIELDS = [
   { name: "name", label: "Name", type: "text" },
@@ -16,20 +17,61 @@ const NODE_FIELDS = [
 
 const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
   const queryClient = useQueryClient();
-  const { register, handleSubmit, reset, control, getValues } = useForm<
-    Partial<FamilyNode>
-  >({
-    defaultValues: selectedNode || {},
-  });
-
-  React.useEffect(() => {
-    reset(selectedNode || {});
-  }, [selectedNode, reset]);
 
   // Fetch all members for parent selection
   const { data: members = [] } = queryClient.getQueryData(["familyData"])
     ? { data: queryClient.getQueryData(["familyData"]) as FamilyNode[] }
     : { data: [] };
+
+  // Get parent details for selectedNode
+  const selectNodeParents = useMemo(() => {
+    if (!selectedNode) return { father: null, mother: null };
+
+    const father = selectedNode.fatherId
+      ? members.find((m) => m.id === selectedNode.fatherId)
+      : null;
+    const mother = selectedNode.motherId
+      ? members.find((m) => m.id === selectedNode.motherId)
+      : null;
+
+    return {
+      father: father ? { id: father.id, name: father.name } : null,
+      mother: mother ? { id: mother.id, name: mother.name } : null,
+    };
+  }, [selectedNode, members]);
+
+  const { register, handleSubmit, reset, control, getValues } = useForm<
+    Partial<
+      FamilyNode & {
+        father: {
+          id: string;
+          name: string;
+        };
+        mother: {
+          id: string;
+          name: string;
+        };
+      }
+    >
+  >({
+    defaultValues: {
+      ...selectedNode,
+      father: selectNodeParents.father || undefined,
+      mother: selectNodeParents.mother || undefined,
+    },
+  });
+
+  useEffect(() => {
+    reset(selectedNode || {});
+  }, [selectedNode, reset]);
+
+  // Get parent details for selectedNode
+  const slimMembers = useMemo(() => {
+    return members?.map((member) => ({
+      name: member?.name,
+      id: member?.id,
+    }));
+  }, [members]);
 
   const mutation = useMutation({
     mutationFn: async (data: Partial<FamilyNode>) => {
@@ -68,17 +110,17 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
         ))}
         <ParentSelect
           label="Father"
-          name="fatherId"
-          members={members}
-          gender="male"
-          parentId={getValues("fatherId") ?? null}
+          name="father"
+          members={slimMembers}
+          parent={selectNodeParents?.father as SlimMember}
+          selectedMemberName={selectedNode?.name || ""}
         />
         <ParentSelect
           label="Mother"
-          name="motherId"
-          members={members}
-          gender="female"
-          parentId={getValues("motherId") ?? null}
+          name="mother"
+          members={slimMembers}
+          parent={selectNodeParents?.mother as SlimMember}
+          selectedMemberName={selectedNode?.name || ""}
         />
       </div>
       <button
