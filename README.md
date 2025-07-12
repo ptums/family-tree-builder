@@ -2,5 +2,14 @@
 
 ## TO DOS:
 
-- Light house view for documents & photos
-- Additional Details component
+### Forms
+
+- Make forms functional
+- Make a document uploader component (file upload and name input)
+- List documents like other fields in profile
+- When clicked docoument is in light house view
+
+### Data
+
+- Add brothers and sisters for all people
+- Upload docs for relavant ppl

@@ -32,7 +32,7 @@ export async function GET() {
   }
 
   // Attach relationships to nodes
-  const familyData: FamilyNode[] = nodes.map((node: any) => ({
+  const familyData = nodes.map((node) => ({
     ...node,
     spouses: spouseMap.get(node.id) || [],
     children: childMap.get(node.id) || [],

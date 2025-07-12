@@ -1,6 +1,7 @@
 export interface SlimMember {
   name: string;
   id: string;
+  gender: string;
 }
 [];
 

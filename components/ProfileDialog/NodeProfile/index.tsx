@@ -22,9 +22,7 @@ const NodeProfile = () => {
     useDialog();
   const hasSiblings =
     selectedNode?.siblings && selectedNode.siblings.length > 0;
-  console.log({
-    selectedNode,
-  });
+
   const hasChildren =
     selectedNode?.children && selectedNode?.children.length > 0;
 
@@ -35,7 +33,7 @@ const NodeProfile = () => {
   return (
     <>
       <DialogTitle className="font-bold">{selectedNode?.name}</DialogTitle>
-      <div className="w-full flex sm:flex-row">
+      <div className="w-full flex sm:flex-row my-2">
         {selectedNode?.profileImg && (
           <Image
             src={selectedNode?.profileImg as string}
@@ -68,7 +66,7 @@ const NodeProfile = () => {
           )}
         </div>
       </div>
-      <div className="w-full flex sm:flex-row">
+      <div className="w-full flex sm:flex-row my-2">
         {hasParents && (
           <ProfileList
             title="Parents"
@@ -84,7 +82,7 @@ const NodeProfile = () => {
           />
         )}
       </div>
-      <div className="flex sm:flex-row">
+      <div className="flex sm:flex-row sm:mx-4 my-2">
         {hasSpouses && (
           <ProfileList
             title="Spouses"
