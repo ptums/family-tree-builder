@@ -2,8 +2,15 @@
 import { SourceKeys } from "@/types/DialogContext";
 
 import { SOURCES, useDialog } from "@/contexts/DialogContext";
+import type { FamilyNode as FamilyNodeType } from "@/types/FamilyNode";
 
-const FamilyNode = ({ node, style }: any) => {
+const FamilyNode = ({
+  node,
+  style,
+}: {
+  node: FamilyNodeType;
+  style?: React.CSSProperties;
+}) => {
   const { openDialog } = useDialog();
   return (
     <div

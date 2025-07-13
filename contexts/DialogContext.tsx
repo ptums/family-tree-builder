@@ -52,6 +52,7 @@ export const DialogProvider: React.FC<DialogProviderProps> = ({ children }) => {
     setIsOpen(false);
     setSelectedNode(null);
   };
+  console.log(selectedNode);
 
   return (
     <DialogContext.Provider

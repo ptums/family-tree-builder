@@ -20,7 +20,7 @@ const ProfileList = memo(({ title, list, setSelectedNode }: any) => {
             className="underline cursor-pointer hover:text-blue-600"
             onClick={() => setSelectedNode(item as unknown as FamilyNode)}
           >
-            {item.name}
+            {item?.name}
           </li>
         ))}
       </ul>

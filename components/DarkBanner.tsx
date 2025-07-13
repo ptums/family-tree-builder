@@ -15,7 +15,7 @@ const DarkBanner = ({
         bannerPosition
       )}
     >
-      <div className="text-white flex flex-row">{children}</div>
+      <div className="text-white flex flex-col sm:flex-row">{children}</div>
     </footer>
   );
 };

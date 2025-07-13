@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { neon } from "@neondatabase/serverless";
-import { FamilyNode } from "@/types/FamilyNode";
 import "dotenv/config";
+import { randomUUID } from "crypto";
 
 const DATABASE_URL = process.env.DATABASE_URL;
 if (!DATABASE_URL) throw new Error("DATABASE_URL is not set");
@@ -54,7 +54,13 @@ export async function POST(request: Request) {
     motherId,
     occupation,
     profileImg,
+    children = [], // Accept children array
+    spouses = [], // Accept spouses array
   } = data;
+
+  // Convert empty strings to null for UUID fields
+  const normalizedFatherId = fatherId === "" ? null : fatherId;
+  const normalizedMotherId = motherId === "" ? null : motherId;
 
   if (id) {
     // Update existing node
@@ -65,22 +71,38 @@ export async function POST(request: Request) {
         birthLocation = ${birthLocation},
         death = ${death},
         deathLocation = ${deathLocation},
-        fatherId = ${fatherId},
-        motherId = ${motherId},
+        fatherId = ${normalizedFatherId},
+        motherId = ${normalizedMotherId},
         occupation = ${occupation},
         profileImg = ${profileImg}
       WHERE id = ${id}
     `;
     return NextResponse.json({ message: "Node updated" });
   } else {
-    // Create new node
+    // Create new node with generated UUID
+    const newId = randomUUID();
     const result = await sql`
       INSERT INTO family_node (
-        name, birth, birthLocation, death, deathLocation, fatherId, motherId, occupation, profileImg
+        id, name, birth, birthLocation, death, deathLocation, fatherId, motherId, occupation, profileImg
       ) VALUES (
-        ${name}, ${birth}, ${birthLocation}, ${death}, ${deathLocation}, ${fatherId}, ${motherId}, ${occupation}, ${profileImg}
+        ${newId}, ${name}, ${birth}, ${birthLocation}, ${death}, ${deathLocation}, ${normalizedFatherId}, ${normalizedMotherId}, ${occupation}, ${profileImg}
       ) RETURNING id
     `;
+
+    // Insert children relationships
+    for (const childId of children) {
+      await sql`
+        INSERT INTO child (parent_id, child_id) VALUES (${newId}, ${childId})
+      `;
+    }
+
+    // Insert spouse relationships
+    for (const spouseId of spouses) {
+      await sql`
+        INSERT INTO spouse (node_id, spouse_id) VALUES (${newId}, ${spouseId})
+      `;
+    }
+
     return NextResponse.json({ message: "Node created", id: result[0]?.id });
   }
 }

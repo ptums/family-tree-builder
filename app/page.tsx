@@ -51,6 +51,6 @@ function FamilyTreeWithQuery() {
   if (error) return <div>Error loading family data</div>;
 
   const normalizedData = normalizeDBFamilyData(data as FamilyNode[]);
-
+  console.log(normalizedData);
   return <FamilyTree treeData={normalizedData as unknown as FamilyNode[]} />;
 }
