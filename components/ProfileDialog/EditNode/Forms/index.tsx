@@ -2,7 +2,6 @@ import { FamilyNode } from "@/types/FamilyNode";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import ParentSelect from "./ParentSelect";
 
 const NODE_FIELDS = [
   { name: "name", label: "Name", type: "text" },
