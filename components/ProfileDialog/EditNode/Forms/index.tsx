@@ -2,6 +2,8 @@ import { FamilyNode } from "@/types/FamilyNode";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { set } from "idb-keyval";
+import { Gender } from "relatives-tree/lib/types";
 
 const NODE_FIELDS = [
   { name: "name", label: "Name", type: "text" },
@@ -16,6 +18,11 @@ const NODE_FIELDS = [
 const FATHER_ID_LABEL = "fatherId";
 const MOTHER_ID_LABEL = "motherId";
 
+// Define a form type for the form state
+interface FamilyNodeForm extends Omit<Partial<FamilyNode>, "spouses"> {
+  spouses: string; // spouse id as string for the select
+}
+
 const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
   const queryClient = useQueryClient();
   const [enableParentSelection, setEnableParentSelection] = useState(false);
@@ -26,19 +33,33 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
     ? { data: queryClient.getQueryData(["familyData"]) as FamilyNode[] }
     : { data: [] };
 
-  const { register, handleSubmit, reset } = useForm<Partial<FamilyNode>>({
-    defaultValues: {
-      ...selectedNode,
-    },
-  });
+  const { register, handleSubmit, reset, setValue, watch } =
+    useForm<FamilyNodeForm>({
+      defaultValues: {
+        ...selectedNode,
+        gender: selectedNode?.gender
+          ? selectedNode?.gender
+          : ("male" as Gender),
+        spouses:
+          selectedNode?.spouses && selectedNode.spouses.length > 0
+            ? (selectedNode.spouses[0] as any).id
+            : "",
+      },
+    });
 
   useEffect(() => {
-    reset(selectedNode || {});
+    reset({
+      ...selectedNode,
+      spouses:
+        selectedNode?.spouses && selectedNode.spouses.length > 0
+          ? (selectedNode.spouses[0] as any).id
+          : "",
+    });
   }, [selectedNode, reset]);
 
   // Get parent details for selectedNode
   const slimMembers = useMemo(() => {
-    return members?.map((member) => ({
+    return members?.map((member: FamilyNode) => ({
       name: member?.name,
       value: member?.name,
       id: member?.id,
@@ -61,8 +82,30 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
     },
   });
 
-  const onSubmit = (data: any) => {
-    mutation.mutate(data);
+  const onSubmit = (data: FamilyNodeForm) => {
+    // Prepare payload for mutation
+    const payload: Partial<FamilyNode> = {
+      ...data,
+      spouses: (data.spouses
+        ? [{ id: data.spouses, type: "married" }]
+        : []) as any,
+    };
+
+    mutation.mutate(payload, {
+      onSuccess: async () => {
+        // Update IndexedDB after successful mutation
+        // Refetch the latest family data from the API and update IndexedDB
+        console.log("great success!");
+        const res = await fetch("/api/family");
+        if (res.ok) {
+          const familyData = await res.json();
+          await set("familyData", familyData);
+        }
+      },
+      onError: (err) => {
+        console.error(err);
+      },
+    });
   };
 
   // Helper to get the parent node by parent field (e.g., "fatherId" or "motherId")
@@ -85,25 +128,18 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
 
   const maleMembers = membersByGender("male");
   const femaleMembers = membersByGender("female");
+
+  // Use the gender from the form if available, otherwise fallback to selectedNode.gender, otherwise default to 'male'
+  const formGender = watch("gender");
+  const effectiveGender = formGender || selectedNode?.gender || "male";
   const oppositeSexNodes = membersByGender(
-    selectedNode?.gender === "female" ? "male" : "female"
+    effectiveGender === "female" ? "male" : "female"
   );
 
-  const selectedSpouses =
-    selectedNode?.spouses && selectedNode?.spouses.length > 0
-      ? selectedNode.spouses[0]
-      : null;
-
+  const spouseId = watch("spouses");
   const membersSpouseData = useMemo(() => {
-    return members.find(
-      (member: FamilyNode) => member?.id === selectedSpouses?.id
-    );
-  }, [selectedSpouses]);
-
-  console.log({
-    selectedSpouses,
-    membersSpouseData,
-  });
+    return members.find((member: FamilyNode) => member?.id === spouseId);
+  }, [spouseId, members]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

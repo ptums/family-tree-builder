@@ -45,17 +45,18 @@ export async function POST(request: Request) {
   const data = await request.json();
   const {
     id,
-    name,
-    birth,
-    birthLocation,
-    death,
-    deathLocation,
-    fatherId,
-    motherId,
-    occupation,
-    profileImg,
+    name = null,
+    birth = null,
+    birthLocation = null,
+    death = null,
+    deathLocation = null,
+    fatherId = null,
+    motherId = null,
+    occupation = null,
+    profileImg = null,
     children = [], // Accept children array
-    spouses = [], // Accept spouses array
+    spouses = [], // Accept spouses array,
+    gender = null,
   } = data;
 
   // Convert empty strings to null for UUID fields
@@ -83,23 +84,28 @@ export async function POST(request: Request) {
     const newId = randomUUID();
     const result = await sql`
       INSERT INTO family_node (
-        id, name, birth, birthLocation, death, deathLocation, fatherId, motherId, occupation, profileImg
+        id, name, birth, birthLocation, death, deathLocation, fatherId, motherId, occupation, profileImg, gender
       ) VALUES (
-        ${newId}, ${name}, ${birth}, ${birthLocation}, ${death}, ${deathLocation}, ${normalizedFatherId}, ${normalizedMotherId}, ${occupation}, ${profileImg}
+        ${newId}, ${name}, ${birth}, ${birthLocation}, ${death}, ${deathLocation}, ${normalizedFatherId}, ${normalizedMotherId}, ${occupation}, ${profileImg}, ${gender}
       ) RETURNING id
     `;
 
     // Insert children relationships
-    for (const childId of children) {
+    if (fatherId) {
       await sql`
-        INSERT INTO child (parent_id, child_id) VALUES (${newId}, ${childId})
+        INSERT INTO child (parent_id, child_id) VALUES (${fatherId}, ${newId})
+      `;
+    }
+    if (motherId) {
+      await sql`
+        INSERT INTO child (parent_id, child_id) VALUES (${motherId}, ${newId})
       `;
     }
 
     // Insert spouse relationships
     for (const spouseId of spouses) {
       await sql`
-        INSERT INTO spouse (node_id, spouse_id) VALUES (${newId}, ${spouseId})
+        INSERT INTO spouse (node_id, spouse_id) VALUES (${newId}, ${spouseId?.id})
       `;
     }
 

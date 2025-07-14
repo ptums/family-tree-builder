@@ -4,7 +4,7 @@
 
 ### Forms
 
-- Make forms functional
+- Finalize data loading
 - Make a document uploader component (file upload and name input)
 - List documents like other fields in profile
 - When clicked docoument is in light house view

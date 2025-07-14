@@ -38,7 +38,6 @@ export const DialogProvider: React.FC<DialogProviderProps> = ({ children }) => {
     key: SourceKeys.NODE_PROFILE,
     component: SOURCES[SourceKeys.NODE_PROFILE],
   });
-
   const openDialog = (node: FamilyNode | null = null, source: SourceType) => {
     if (node) {
       setSelectedNode(node);
@@ -52,7 +51,6 @@ export const DialogProvider: React.FC<DialogProviderProps> = ({ children }) => {
     setIsOpen(false);
     setSelectedNode(null);
   };
-  console.log(selectedNode);
 
   return (
     <DialogContext.Provider

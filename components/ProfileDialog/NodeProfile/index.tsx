@@ -29,7 +29,7 @@ const NodeProfile = () => {
   const hasParents = selectedNode?.parents && selectedNode?.parents.length > 0;
 
   const hasSpouses = selectedNode?.spouses && selectedNode?.spouses.length > 0;
-
+  console.log("selectedNode?.spouses", selectedNode?.spouses);
   return (
     <>
       <DialogTitle className="font-bold">{selectedNode?.name}</DialogTitle>
@@ -50,14 +50,18 @@ const NodeProfile = () => {
           {selectedNode?.birth && (
             <ProfileFact
               title="Born"
-              fact={`${selectedNode?.birth} - ${selectedNode?.birthLocation}`}
+              fact={`${selectedNode?.birth} - ${
+                selectedNode?.birthLocation || ""
+              }`}
             />
           )}
 
           {selectedNode?.death && (
             <ProfileFact
               title="Death"
-              fact={`${selectedNode?.death} - ${selectedNode?.deathLocation}`}
+              fact={`${selectedNode?.death} - ${
+                selectedNode?.deathLocation || ""
+              }`}
             />
           )}
 

@@ -1,11 +1,10 @@
 // export type Gender = "male" | "female";
-import { Node } from "relatives-tree/lib/types";
+import { Node, Gender } from "relatives-tree/lib/types";
 
 export type FamilyNode = Node & NodeAdditionalDetails;
 
 export type NodeAdditionalDetails = {
   name: string;
-
   birth: string;
   birthLocation: string;
   death: string;
@@ -14,4 +13,5 @@ export type NodeAdditionalDetails = {
   motherId: string | null;
   occupation?: string;
   profileImg?: string;
+  gender?: Gender;
 };
