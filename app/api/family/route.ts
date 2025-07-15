@@ -2,13 +2,12 @@ import { NextResponse } from "next/server";
 import { neon } from "@neondatabase/serverless";
 import "dotenv/config";
 import { randomUUID } from "crypto";
+import { FamilyNode } from "@/types/FamilyNode";
 import {
+  mapParents,
   findSiblings,
   mapFamilyTreeNodeKeys,
-  mapParents,
-  mapSpouses,
 } from "@/utils/familyUtils";
-import { FamilyNode } from "@/types/FamilyNode";
 
 const DATABASE_URL = process.env.DATABASE_URL;
 if (!DATABASE_URL) throw new Error("DATABASE_URL is not set");
@@ -42,11 +41,6 @@ export async function GET() {
   const familyData = nodes.map((node) => {
     const parents = mapParents(node);
 
-    // Build children array
-
-    // Build spouses array
-    const spousesData = mapSpouses(node);
-
     // Siblings can be derived later; for now, leave empty
     const siblings = findSiblings(
       nodes,
@@ -54,8 +48,21 @@ export async function GET() {
       "fatherid",
       "motherid"
     );
+    const sm = spouseMap.get(node.id) || [];
+    const cm = childMap.get(node.id) || [];
 
-    return mapFamilyTreeNodeKeys(node, siblings, spouseMap, childMap, parents);
+    const spouses =
+      sm?.map((id: string) => ({
+        id,
+        type: "married" as const,
+      })) || [];
+
+    const children = cm?.map((id: string) => ({
+      id,
+      type: "blood" as const,
+    }));
+
+    return mapFamilyTreeNodeKeys(node, siblings, spouses, children, parents);
   });
 
   return NextResponse.json(familyData);

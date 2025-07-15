@@ -1,6 +1,5 @@
 "use client";
 import FamilyTree from "@/components/FamilyTree";
-import { normalizeDBFamilyData } from "@/data/familyTree";
 import { FamilyNode } from "@/types/FamilyNode";
 import {
   useQuery,
@@ -19,8 +18,8 @@ function useFamilyData() {
     queryKey: ["familyData"],
     queryFn: async () => {
       // Try IndexedDB first
-      const cached = await get("familyData");
-      if (cached) return cached;
+      // const cached = await get("familyData");
+      // if (cached) return cached;
       // Fetch from API
       const res = await fetch("/api/family");
       const data = await res.json();
@@ -50,7 +49,8 @@ function FamilyTreeWithQuery() {
 
   if (isLoading) return <LoadingIcon />;
   if (error) return <div>Error loading family data</div>;
-
-  const normalizedData = normalizeDBFamilyData(data as FamilyNode[]);
-  return <FamilyTree treeData={normalizedData as unknown as FamilyNode[]} />;
+  console.log({
+    data,
+  });
+  return <FamilyTree treeData={data as unknown as FamilyNode[]} />;
 }
