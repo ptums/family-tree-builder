@@ -2,6 +2,13 @@ import { NextResponse } from "next/server";
 import { neon } from "@neondatabase/serverless";
 import "dotenv/config";
 import { randomUUID } from "crypto";
+import {
+  findSiblings,
+  mapFamilyTreeNodeKeys,
+  mapParents,
+  mapSpouses,
+} from "@/utils/familyUtils";
+import { FamilyNode } from "@/types/FamilyNode";
 
 const DATABASE_URL = process.env.DATABASE_URL;
 if (!DATABASE_URL) throw new Error("DATABASE_URL is not set");
@@ -32,11 +39,24 @@ export async function GET() {
   }
 
   // Attach relationships to nodes
-  const familyData = nodes.map((node) => ({
-    ...node,
-    spouses: spouseMap.get(node.id) || [],
-    children: childMap.get(node.id) || [],
-  }));
+  const familyData = nodes.map((node) => {
+    const parents = mapParents(node);
+
+    // Build children array
+
+    // Build spouses array
+    const spousesData = mapSpouses(node);
+
+    // Siblings can be derived later; for now, leave empty
+    const siblings = findSiblings(
+      nodes,
+      node as unknown as FamilyNode,
+      "fatherid",
+      "motherid"
+    );
+
+    return mapFamilyTreeNodeKeys(node, siblings, spouseMap, childMap, parents);
+  });
 
   return NextResponse.json(familyData);
 }

@@ -44,3 +44,43 @@ export const findSiblings = (
 
   return siblings;
 };
+
+export const mapParents = (node: any) =>
+  [node.fatherid, node.motherid]
+    .filter((id): id is string => Boolean(id))
+    .map((id) => ({ id, type: "blood" as const }));
+
+// Build children array
+export const mapChildren = (node: any) =>
+  node?.children?.map((id: string) => ({
+    id,
+    type: "blood" as const,
+  }));
+
+// Build spouses array
+export const mapSpouses = (node: any) =>
+  node?.spouses?.map((id: string) => ({ id, type: "married" as const })) || [];
+
+export const mapFamilyTreeNodeKeys = (
+  node: any,
+  siblings: any,
+  spouses: any,
+  children: any,
+  parents: any
+) => ({
+  id: node.id,
+  gender: node.gender,
+  parents,
+  children,
+  spouses,
+  siblings,
+  name: node.name,
+  birth: node?.birth,
+  birthLocation: node?.birthlocation,
+  death: node?.death,
+  deathLocation: node?.deathlocation,
+  occupation: node?.occupation,
+  profileImg: node?.profileimg,
+  fatherId: node?.fatherid,
+  motherId: node?.motherid,
+});

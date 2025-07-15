@@ -90,7 +90,9 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
         ? [{ id: data.spouses, type: "married" }]
         : []) as any,
     };
-
+    console.log({
+      payload,
+    });
     mutation.mutate(payload, {
       onSuccess: async () => {
         // Update IndexedDB after successful mutation
@@ -99,7 +101,10 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
         const res = await fetch("/api/family");
         if (res.ok) {
           const familyData = await res.json();
-          await set("familyData", familyData);
+          console.log({
+            familyData,
+          });
+          //  await set("familyData", familyData);
         }
       },
       onError: (err) => {
