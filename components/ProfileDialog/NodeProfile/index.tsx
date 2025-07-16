@@ -6,6 +6,7 @@ import Image from "next/image";
 import classNames from "classnames";
 import LoadingIcon from "../../LoadingIcon";
 import { SourceKeys } from "@/types/DialogContext";
+import CloseDialog from "../CloseDialog";
 
 const ProfileList = dynamic(() => import("./ProfileList"), {
   loading: () => <LoadingIcon />,
@@ -29,7 +30,7 @@ const NodeProfile = () => {
   const hasParents = selectedNode?.parents && selectedNode?.parents.length > 0;
 
   const hasSpouses = selectedNode?.spouses && selectedNode?.spouses.length > 0;
-  console.log("selectedNode?.spouses", selectedNode?.spouses);
+
   return (
     <>
       <DialogTitle className="font-bold">{selectedNode?.name}</DialogTitle>
@@ -103,12 +104,7 @@ const NodeProfile = () => {
         )}
       </div>
       <div className="border-t p-4 mt-8 flex sm:flex-row justify-between">
-        <button
-          className="bg-red-600 rounded-full text-white py-1 px-4 cursor-pointer hover:bg-red-500"
-          onClick={() => closeDialog()}
-        >
-          Close
-        </button>
+        <CloseDialog />
         <button
           className="bg-green-600 rounded-full text-white py-1 px-4 cursor-pointer hover:bg-green-500"
           onClick={() =>

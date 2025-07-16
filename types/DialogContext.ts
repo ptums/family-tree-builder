@@ -4,6 +4,7 @@ import { FamilyNode } from "./FamilyNode";
 export enum SourceKeys {
   NODE_PROFILE = "node-profile",
   EDIT_NODE = "edit-node",
+  DOCUMENT_UPLOADER = "document-uploader",
 }
 
 export interface SourceType {

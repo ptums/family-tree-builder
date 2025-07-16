@@ -2,8 +2,9 @@ import { FamilyNode } from "@/types/FamilyNode";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { set } from "idb-keyval";
 import { Gender } from "relatives-tree/lib/types";
+import { SOURCES, useDialog } from "@/contexts/DialogContext";
+import { SourceKeys } from "@/types/DialogContext";
 
 const NODE_FIELDS = [
   { name: "name", label: "Name", type: "text" },
@@ -27,7 +28,7 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
   const queryClient = useQueryClient();
   const [enableParentSelection, setEnableParentSelection] = useState(false);
   const [enableSpouseSelection, setEnableSpouseSelection] = useState(false);
-
+  const { openDialog } = useDialog();
   // Fetch all members for parent selection
   const { data: members = [] } = queryClient.getQueryData(["familyData"])
     ? { data: queryClient.getQueryData(["familyData"]) as FamilyNode[] }
@@ -282,6 +283,17 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
           </select>
         </div>
       </div>
+      <button
+        className="cursor-pointer underline my-4"
+        onClick={() =>
+          openDialog(selectedNode, {
+            key: SourceKeys.DOCUMENT_UPLOADER,
+            component: SOURCES[SourceKeys.DOCUMENT_UPLOADER],
+          })
+        }
+      >
+        Add additional documents for {selectedNode?.name}
+      </button>
       <div className="flex justify-end mt-4">
         <button
           type="submit"

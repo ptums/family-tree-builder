@@ -1,6 +1,7 @@
 "use client";
 
 import LoadingIcon from "@/components/LoadingIcon";
+import DocumentUploader from "@/components/ProfileDialog/DocumentUploader";
 import {
   DialogContextType,
   SourceKeys,
@@ -29,6 +30,7 @@ const DialogContext = createContext<DialogContextType | undefined>(undefined);
 export const SOURCES = {
   [SourceKeys.NODE_PROFILE]: NodeProfile,
   [SourceKeys.EDIT_NODE]: EditNode,
+  [SourceKeys.DOCUMENT_UPLOADER]: DocumentUploader,
 };
 
 export const DialogProvider: React.FC<DialogProviderProps> = ({ children }) => {

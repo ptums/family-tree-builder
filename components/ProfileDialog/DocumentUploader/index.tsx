@@ -1,43 +1,38 @@
 import { SOURCES, useDialog } from "@/contexts/DialogContext";
 import { DialogTitle } from "@headlessui/react";
-import LoadingIcon from "@/components/LoadingIcon";
-import dynamic from "next/dynamic";
 import { SourceKeys } from "@/types/DialogContext";
 import CloseDialog from "../CloseDialog";
+import LoadingIcon from "@/components/LoadingIcon";
+import dynamic from "next/dynamic";
 
-const NodeForm = dynamic(() => import("./form"), {
+const UploaderForm = dynamic(() => import("./form"), {
   loading: () => <LoadingIcon />,
   ssr: false,
 });
-
-const EditNode = () => {
-  const { selectedNode, setSelectedSource } = useDialog();
+const DocumentUploader = () => {
+  const { selectedNode, setSelectedSource, openDialog } = useDialog();
 
   return (
     <>
       <DialogTitle className="font-bold">
-        {selectedNode ? (
-          <>
-            Edit <span className="underline">{selectedNode?.name} </span>Profile
-          </>
-        ) : (
-          <>Create New Member</>
-        )}
+        Add documents to{" "}
+        <span className="underline">{selectedNode?.name} </span>Profile
       </DialogTitle>
-      <NodeForm selectedNode={selectedNode} />
+
+      <UploaderForm />
       <div className="border-t p-4 mt-8 flex sm:flex-row justify-between">
         <CloseDialog />
         {selectedNode && (
           <button
             className="bg-green-600 rounded-full text-white py-1 px-4 cursor-pointer hover:bg-green-500"
             onClick={() =>
-              setSelectedSource({
-                key: SourceKeys.NODE_PROFILE,
-                component: SOURCES[SourceKeys.NODE_PROFILE],
+              openDialog(selectedNode, {
+                key: SourceKeys.EDIT_NODE,
+                component: SOURCES[SourceKeys.EDIT_NODE],
               })
             }
           >
-            View {selectedNode?.name} profile
+            Edit {selectedNode?.name} details
           </button>
         )}
       </div>
@@ -45,4 +40,4 @@ const EditNode = () => {
   );
 };
 
-export default EditNode;
+export default DocumentUploader;
