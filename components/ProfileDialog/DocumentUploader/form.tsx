@@ -1,35 +1,21 @@
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-// @ts-ignore
-import { Cloudinary } from "cloudinary-core";
-
-// TODO: Replace with your Cloudinary credentials
-const CLOUD_NAME = "YOUR_CLOUD_NAME"; // <-- Set this
-const UPLOAD_PRESET = "YOUR_UPLOAD_PRESET"; // <-- Set this
-
-interface UploadedDocument {
-  id: string;
-  name: string;
-  url: string;
-}
-
-const mockDocuments: UploadedDocument[] = [
-  // Example data, replace with real data fetching logic
-  { id: "1", name: "Birth Certificate.pdf", url: "#" },
-  { id: "2", name: "Marriage License.pdf", url: "#" },
-];
-
-const cl = new Cloudinary({ cloud_name: CLOUD_NAME, secure: true });
+import { useDialog } from "@/contexts/DialogContext";
+import { UploadedDocument } from "@/types/DocumentUploader";
+import DocumentList from "./DocumentList";
 
 const DocumentUploaderForm: React.FC = () => {
-  const [uploadedDocs, setUploadedDocs] =
-    useState<UploadedDocument[]>(mockDocuments);
+  const [uploadedDocs, setUploadedDocs] = useState<UploadedDocument[]>();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [docName, setDocName] = useState("");
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copiedDocId, setCopiedDocId] = useState<string | null>(null);
-
+  const { selectedNode } = useDialog();
+  const userId = selectedNode?.id;
+  console.log({
+    uploadedDocs,
+  });
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
       setSelectedFile(acceptedFiles[0]);
@@ -61,19 +47,24 @@ const DocumentUploaderForm: React.FC = () => {
     }
     setUploading(true);
     try {
-      // Use cloudinary-core to generate the upload URL
-      const uploadUrl = cl.url("auto/upload", {
-        secure: true,
-        resource_type: "auto",
+      // 1. Request signature from backend
+      const sigRes = await fetch("/api/cloudinary-signature", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ public_id: docName }),
       });
-      // Note: cloudinary-core does not handle file uploads directly, but helps with URL generation
+      const { signature, timestamp, apiKey, cloudName } = await sigRes.json();
+
+      // 2. Upload to Cloudinary with signature
       const formData = new FormData();
       formData.append("file", selectedFile);
-      formData.append("upload_preset", UPLOAD_PRESET);
-      formData.append("public_id", docName); // Use docName as the public_id
+      formData.append("public_id", docName);
+      formData.append("api_key", apiKey);
+      formData.append("timestamp", timestamp);
+      formData.append("signature", signature);
 
       const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,
+        `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
         {
           method: "POST",
           body: formData,
@@ -83,17 +74,30 @@ const DocumentUploaderForm: React.FC = () => {
         throw new Error("Cloudinary upload failed");
       }
       const data = await response.json();
-      setUploadedDocs((prev) => [
+      console.log("data @", data);
+
+      setUploadedDocs((prev = []) => [
         ...prev,
         {
-          id: data.public_id,
+          id: data?.public_id,
           name: docName,
-          url: data.secure_url,
+          url: data?.secure_url,
         },
       ]);
       setSelectedFile(null);
       setDocName("");
       setUploading(false);
+
+      // Upload document details to the documents table
+      await fetch("/api/documents", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: docName,
+          url: data?.secure_url,
+          userId,
+        }),
+      });
     } catch (err: any) {
       setError(err.message || "Failed to upload document.");
       setUploading(false);
@@ -101,7 +105,7 @@ const DocumentUploaderForm: React.FC = () => {
   };
 
   const handleDelete = (id: string) => {
-    setUploadedDocs((docs) => docs.filter((doc) => doc.id !== id));
+    setUploadedDocs((docs) => docs?.filter((doc) => doc.id !== id));
   };
 
   const handleCopyUrl = async (url: string, id: string) => {
@@ -118,39 +122,13 @@ const DocumentUploaderForm: React.FC = () => {
     <form onSubmit={handleUpload} className="flex flex-col gap-4">
       {/* Uploaded Documents List */}
       <div>
-        <ul className="mt-2">
-          {uploadedDocs.length === 0 && (
-            <li className="text-gray-500">No documents uploaded yet.</li>
-          )}
-          {uploadedDocs.map((doc) => (
-            <li key={doc.id} className="flex items-center justify-between">
-              <span className="truncate max-w-xs" title={doc.name}>
-                {doc.name} -
-                <button
-                  type="button"
-                  className="text-blue-600 underline ml-1 mr-2"
-                  onClick={() => handleCopyUrl(doc.url, doc.id)}
-                  title="Copy link to clipboard"
-                >
-                  {doc.url}
-                </button>
-                {copiedDocId === doc.id && (
-                  <span className="text-green-600 text-xs ml-1">Copied!</span>
-                )}
-              </span>
-              <button
-                type="button"
-                className="ml-2 text-red-500 hover:text-red-700 cursor-pointer"
-                onClick={() => handleDelete(doc.id)}
-                aria-label={`Delete ${doc.name}`}
-              >
-                &#x2715;
-              </button>
-            </li>
-          ))}
-        </ul>
+        <DocumentList
+          handleCopyUrl={handleCopyUrl}
+          handleDelete={handleDelete}
+          uploadedDocs={uploadedDocs ?? []}
+          copiedDocId={copiedDocId as string}
+        />
       </div>
-
       {/* Dropzone Area */}
       <div
         {...getRootProps()}

@@ -7,6 +7,7 @@ import classNames from "classnames";
 import LoadingIcon from "../../LoadingIcon";
 import { SourceKeys } from "@/types/DialogContext";
 import CloseDialog from "../CloseDialog";
+import { useQuery } from "@tanstack/react-query";
 
 const ProfileList = dynamic(() => import("./ProfileList"), {
   loading: () => <LoadingIcon />,
@@ -30,6 +31,28 @@ const NodeProfile = () => {
   const hasParents = selectedNode?.parents && selectedNode?.parents.length > 0;
 
   const hasSpouses = selectedNode?.spouses && selectedNode?.spouses.length > 0;
+
+  // Fetch documents for this user
+  const { data: documents, isLoading: docsLoading } = useQuery({
+    queryKey: ["documents", selectedNode?.id],
+    enabled: !!selectedNode?.id,
+    queryFn: async () => {
+      if (!selectedNode?.id) return [];
+      const res = await fetch(`/api/documents?id=${selectedNode.id}`);
+      if (res.status === 404) return [];
+      if (!res.ok) throw new Error("Failed to fetch documents");
+      const doc = await res.json();
+      // If the API returns a single object, wrap in array for consistency
+      return Array.isArray(doc) ? doc : [doc];
+    },
+  });
+
+  // Format documents for ProfileList
+  const documentList = (documents || []).map((doc) => ({
+    id: doc.id,
+    name: doc.name,
+    url: doc.url,
+  }));
 
   return (
     <>
@@ -87,7 +110,7 @@ const NodeProfile = () => {
           />
         )}
       </div>
-      <div className="flex sm:flex-row sm:mx-4 my-2">
+      <div className="flex sm:flex-row mx-4 sm:mx-0 my-2">
         {hasSpouses && (
           <ProfileList
             title="Spouses"
@@ -103,6 +126,26 @@ const NodeProfile = () => {
           />
         )}
       </div>
+      {documentList?.length > 0 && (
+        <div className="flex sm:flex-row mx-4 sm:mx-0 my-2">
+          <div className="sm:mr-10">
+            <p className="font-bold">Files</p>
+            <ul className="list-disc list-inside">
+              {documentList.map((item: any) => (
+                <li
+                  key={item?.id}
+                  className="underline cursor-pointer hover:text-blue-600"
+                >
+                  <a href={item?.url} target="_blank">
+                    {item?.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
       <div className="border-t p-4 mt-8 flex sm:flex-row justify-between">
         <CloseDialog />
         <button

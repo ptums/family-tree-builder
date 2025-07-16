@@ -1,6 +1,4 @@
 const { neon } = require("@neondatabase/serverless");
-const fs = require("fs");
-const path = require("path");
 require("dotenv/config");
 
 const DATABASE_URL = process.env.DATABASE_URL;
@@ -9,10 +7,6 @@ if (!DATABASE_URL) {
 }
 
 const sql = neon(DATABASE_URL);
-
-// Read family-tree.json
-const dataPath = path.join(__dirname, "../data/family-tree.json");
-const familyData = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
 
 async function main() {
   // Create tables
@@ -50,43 +44,14 @@ async function main() {
     )
   `;
 
-  // Insert family nodes
-  for (const node of familyData) {
-    await sql`
-      INSERT INTO family_node (id, name, gender, birth, birthLocation, death, deathLocation, fatherId, motherId, occupation, profileImg)
-      VALUES (${node.id},${node.name},${node.gender},${node.birth},${
-      node.birthLocation
-    },${node.death},${node.deathLocation},${node.fatherId || null},${
-      node.motherId || null
-    },${node.occupation || null},${node.profileImg || null})
-      ON CONFLICT (id) DO NOTHING
-    `;
-  }
-
-  // Insert spouse relationships (bidirectional, but only one direction to avoid duplicates)
-  for (const node of familyData) {
-    if (Array.isArray(node.spouses)) {
-      for (const spouseId of node.spouses) {
-        if (node.id < spouseId) {
-          // Only insert one direction
-          await sql`
-            INSERT INTO spouse (node_id, spouse_id) VALUES (${node.id}, ${spouseId}) ON CONFLICT DO NOTHING
-          `;
-        }
-      }
-    }
-  }
-
-  // Insert child relationships
-  for (const node of familyData) {
-    if (Array.isArray(node.children)) {
-      for (const childId of node.children) {
-        await sql`
-          INSERT INTO child (parent_id, child_id) VALUES (${node.id}, ${childId}) ON CONFLICT DO NOTHING
-        `;
-      }
-    }
-  }
+  await sql`
+    CREATE TABLE IF NOT EXISTS documents (
+      id UUID PRIMARY KEY,
+      name TEXT NOT NULL,
+      url TEXT NOT NULL,
+      userId UUID NOT NULL REFERENCES family_node(id)
+    )
+  `;
 
   console.log("Seeding complete!");
 }
