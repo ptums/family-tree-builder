@@ -1,8 +1,7 @@
 # Barnwell Family Tree
 
-## TO DOS:
+## v2 TO DOS:
 
-### Data
-
+- Add additonal_info field for profiles
 - Add brothers and sisters for all people
 - Upload docs for relavant ppl
