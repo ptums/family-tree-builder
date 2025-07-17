@@ -10,6 +10,7 @@
     "backup": "node scripts/writeDBToFile.js"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.25.3",
     "@headlessui/react": "^2.2.4",
     "@headlessui/tailwindcss": "^0.2.2",
     "@neondatabase/serverless": "^1.0.1",

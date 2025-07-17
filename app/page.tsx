@@ -10,6 +10,7 @@ import { get, set } from "idb-keyval";
 import { DialogProvider } from "@/contexts/DialogContext";
 import LoadingIcon from "@/components/LoadingIcon";
 import { FormProvider, useForm } from "react-hook-form";
+import { SignedIn, SignedOut, SignIn } from "@clerk/nextjs";
 
 const queryClient = new QueryClient();
 
@@ -18,8 +19,8 @@ function useFamilyData() {
     queryKey: ["familyData"],
     queryFn: async () => {
       // Try IndexedDB first
-      // const cached = await get("familyData");
-      // if (cached) return cached;
+      const cached = await get("familyData");
+      if (cached) return cached;
       // Fetch from API
       const res = await fetch("/api/family");
       const data = await res.json();
@@ -34,13 +35,29 @@ function useFamilyData() {
 export default function App() {
   const methods = useForm();
   return (
-    <FormProvider {...methods}>
-      <QueryClientProvider client={queryClient}>
-        <DialogProvider>
-          <FamilyTreeWithQuery />
-        </DialogProvider>
-      </QueryClientProvider>
-    </FormProvider>
+    <>
+      <SignedIn>
+        <FormProvider {...methods}>
+          <QueryClientProvider client={queryClient}>
+            <DialogProvider>
+              <FamilyTreeWithQuery />
+            </DialogProvider>
+          </QueryClientProvider>
+        </FormProvider>
+      </SignedIn>
+      <SignedOut>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <SignIn appearance={{ elements: { card: { width: "350px" } } }} />
+        </div>
+      </SignedOut>
+    </>
   );
 }
 
@@ -49,8 +66,6 @@ function FamilyTreeWithQuery() {
 
   if (isLoading) return <LoadingIcon />;
   if (error) return <div>Error loading family data</div>;
-  console.log({
-    data,
-  });
+
   return <FamilyTree treeData={data as unknown as FamilyNode[]} />;
 }

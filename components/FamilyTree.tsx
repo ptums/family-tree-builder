@@ -6,6 +6,7 @@ import { FamilyNode as FamilyTreeNodes } from "@/types/FamilyNode";
 import type { FamilyNode as FamilyNodeType } from "@/types/FamilyNode";
 import dynamic from "next/dynamic";
 import LoadingIcon from "@/components/LoadingIcon";
+import { SignOutButton } from "@clerk/nextjs";
 
 const WIDTH = 220;
 const HEIGHT = 200;
@@ -53,7 +54,16 @@ const FamilyTree = ({ treeData }: { treeData: FamilyTreeNodes[] }) => {
   return (
     <div className="flex flex-col h-full">
       <DarkBanner bannerPosition={"top-0"}>
-        <h1 className="text-2xl text-center font-bold">Barnwell Family Tree</h1>
+        <div className="flex items-center justify-between w-full">
+          <h1 className="text-2xl text-center font-bold">
+            Barnwell Family Tree
+          </h1>
+          <SignOutButton>
+            <button className="ml-4 text-white hover:underline text-base font-normal">
+              Sign out
+            </button>
+          </SignOutButton>
+        </div>
       </DarkBanner>
 
       {treeDataMemo && treeDataMemo.length > 0 ? (

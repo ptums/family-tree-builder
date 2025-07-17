@@ -20,7 +20,8 @@ export async function GET(request: Request) {
   if (result.length === 0) {
     return NextResponse.json({ error: "Document not found" }, { status: 404 });
   }
-  return NextResponse.json(result[0]);
+
+  return NextResponse.json(result);
 }
 
 export async function DELETE(request: Request) {

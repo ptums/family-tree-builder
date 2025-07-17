@@ -42,6 +42,7 @@ const NodeProfile = () => {
       if (res.status === 404) return [];
       if (!res.ok) throw new Error("Failed to fetch documents");
       const doc = await res.json();
+
       // If the API returns a single object, wrap in array for consistency
       return Array.isArray(doc) ? doc : [doc];
     },

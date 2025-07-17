@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Gender } from "relatives-tree/lib/types";
 import { SOURCES, useDialog } from "@/contexts/DialogContext";
 import { SourceKeys } from "@/types/DialogContext";
+import { set } from "idb-keyval";
 
 const NODE_FIELDS = [
   { name: "name", label: "Name", type: "text" },
@@ -91,9 +92,7 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
         ? [{ id: data.spouses, type: "married" }]
         : []) as any,
     };
-    console.log({
-      payload,
-    });
+
     mutation.mutate(payload, {
       onSuccess: async () => {
         // Update IndexedDB after successful mutation
@@ -102,10 +101,8 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
         const res = await fetch("/api/family");
         if (res.ok) {
           const familyData = await res.json();
-          console.log({
-            familyData,
-          });
-          //  await set("familyData", familyData);
+
+          await set("familyData", familyData);
         }
       },
       onError: (err) => {
