@@ -5,6 +5,8 @@ export enum SourceKeys {
   NODE_PROFILE = "node-profile",
   EDIT_NODE = "edit-node",
   DOCUMENT_UPLOADER = "document-uploader",
+  ADD_CHILD = "add-child",
+  ADD_SPOUSE = "add-spouse",
 }
 
 export interface SourceType {
@@ -19,7 +21,7 @@ export interface DialogProviderProps {
 export interface DialogContextType {
   isOpen: boolean;
   selectedNode: FamilyNode | null;
-  openDialog: (node: FamilyNode | null, source: SourceType) => void;
+  openDialog: (node: any, source: SourceType) => void;
   closeDialog: () => void;
   setSelectedNode: (node: FamilyNode) => void;
   selectedSource: SourceType;

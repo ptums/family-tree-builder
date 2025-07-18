@@ -8,6 +8,7 @@ import LoadingIcon from "../../LoadingIcon";
 import { SourceKeys } from "@/types/DialogContext";
 import CloseDialog from "../CloseDialog";
 import { useQuery } from "@tanstack/react-query";
+import { Gender } from "relatives-tree/lib/types";
 
 const ProfileList = dynamic(() => import("./ProfileList"), {
   loading: () => <LoadingIcon />,
@@ -20,8 +21,7 @@ const ProfileFact = dynamic(() => import("./ProfileFact"), {
 });
 
 const NodeProfile = () => {
-  const { selectedNode, setSelectedNode, closeDialog, openDialog } =
-    useDialog();
+  const { selectedNode, setSelectedNode, openDialog } = useDialog();
   const hasSiblings =
     selectedNode?.siblings && selectedNode.siblings.length > 0;
 
@@ -54,6 +54,8 @@ const NodeProfile = () => {
     name: doc.name,
     url: doc.url,
   }));
+
+  console.log("selectedNode", selectedNode);
 
   return (
     <>
@@ -146,6 +148,40 @@ const NodeProfile = () => {
           </div>
         </div>
       )}
+      <button
+        className={classNames("my-4 block", {
+          "text-gray-400 cursor-not-allowed": hasSpouses,
+          "cursor-pointer underline": !hasSpouses,
+        })}
+        onClick={() => {
+          if (!hasSpouses) {
+            openDialog(
+              {
+                id: selectedNode?.id,
+                gender:
+                  selectedNode?.gender === "male"
+                    ? ("female" as Gender)
+                    : selectedNode?.gender === "female"
+                    ? ("male" as Gender)
+                    : ("male" as Gender),
+                spouses: [
+                  {
+                    id: selectedNode?.id,
+                    type: "married",
+                  },
+                ],
+              },
+              {
+                key: SourceKeys.ADD_SPOUSE,
+                component: SOURCES[SourceKeys.EDIT_NODE],
+              }
+            );
+          }
+        }}
+        disabled={hasSpouses}
+      >
+        Add Spouse
+      </button>
 
       <div className="border-t p-4 mt-8 flex sm:flex-row justify-between">
         <CloseDialog />

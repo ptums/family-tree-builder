@@ -11,12 +11,12 @@ const NodeForm = dynamic(() => import("./form"), {
 });
 
 const EditNode = () => {
-  const { selectedNode, setSelectedSource } = useDialog();
+  const { selectedNode, setSelectedSource, selectedSource } = useDialog();
 
   return (
     <>
       <DialogTitle className="font-bold">
-        {selectedNode ? (
+        {selectedNode && !selectedSource?.key.includes("add-spouse") ? (
           <>
             Edit <span className="underline">{selectedNode?.name} </span>Profile
           </>

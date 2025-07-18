@@ -29,11 +29,13 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
   const queryClient = useQueryClient();
   const [enableParentSelection, setEnableParentSelection] = useState(false);
   const [enableSpouseSelection, setEnableSpouseSelection] = useState(false);
-  const { openDialog } = useDialog();
+  const { openDialog, selectedSource } = useDialog();
   // Fetch all members for parent selection
   const { data: members = [] } = queryClient.getQueryData(["familyData"])
     ? { data: queryClient.getQueryData(["familyData"]) as FamilyNode[] }
     : { data: [] };
+
+  const formType = selectedSource?.key;
 
   const { register, handleSubmit, reset, setValue, watch } =
     useForm<FamilyNodeForm>({
@@ -58,6 +60,12 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
           : "",
     });
   }, [selectedNode, reset]);
+
+  useEffect(() => {
+    if (formType?.includes("add-spouse")) {
+      setEnableSpouseSelection(true);
+    }
+  }, [formType, setEnableSpouseSelection]);
 
   // Get parent details for selectedNode
   const slimMembers = useMemo(() => {
@@ -143,6 +151,10 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
   const membersSpouseData = useMemo(() => {
     return members.find((member: FamilyNode) => member?.id === spouseId);
   }, [spouseId, members]);
+
+  console.log("selectedNode", selectedNode);
+  console.log(spouseId);
+  console.log("membersSpouseData", membersSpouseData);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -289,8 +301,11 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
           })
         }
       >
-        Add additional documents for {selectedNode?.name}
+        {selectedNode?.name
+          ? `Add additional documents for ${selectedNode?.name}`
+          : `Add additional documents`}
       </button>
+
       <div className="flex justify-end mt-4">
         <button
           type="submit"
