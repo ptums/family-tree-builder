@@ -22,9 +22,13 @@ async function main() {
       fatherId UUID,
       motherId UUID,
       occupation TEXT,
-      profileImg TEXT
+      profileImg TEXT,
+      facts TEXT
     )
   `;
+
+  // Ensure 'facts' column exists if table was created previously without it
+  await sql`ALTER TABLE family_node ADD COLUMN IF NOT EXISTS facts TEXT NULL;`;
 
   await sql`
     CREATE TABLE IF NOT EXISTS spouse (

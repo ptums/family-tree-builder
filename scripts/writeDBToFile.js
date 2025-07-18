@@ -1,37 +1,30 @@
 const fs = require("fs");
 const path = require("path");
-const https = require("https");
-const http = require("http");
+const { neon } = require("@neondatabase/serverless");
+require("dotenv/config");
 
-const API_URL = "http://localhost:3000/api/family";
-const OUTPUT_PATH = path.join(__dirname, "../data/db.json");
-
-function fetchData(url) {
-  return new Promise((resolve, reject) => {
-    const lib = url.startsWith("https") ? https : http;
-    lib
-      .get(url, (res) => {
-        let data = "";
-        res.on("data", (chunk) => {
-          data += chunk;
-        });
-        res.on("end", () => {
-          try {
-            resolve(JSON.parse(data));
-          } catch (err) {
-            reject(err);
-          }
-        });
-      })
-      .on("error", (err) => {
-        reject(err);
-      });
-  });
+const DATABASE_URL = process.env.DATABASE_URL;
+if (!DATABASE_URL) {
+  throw new Error("DATABASE_URL is not set in environment variables");
 }
+
+const sql = neon(DATABASE_URL);
+const OUTPUT_PATH = path.join(__dirname, "../data/db.json");
 
 async function main() {
   try {
-    const data = await fetchData(API_URL);
+    const [familyNodes, spouses, children, documents] = await Promise.all([
+      sql`SELECT * FROM family_node`,
+      sql`SELECT * FROM spouse`,
+      sql`SELECT * FROM child`,
+      sql`SELECT * FROM documents`,
+    ]);
+    const data = {
+      family_node: familyNodes,
+      spouse: spouses,
+      child: children,
+      documents: documents,
+    };
     fs.writeFileSync(OUTPUT_PATH, JSON.stringify(data, null, 2));
     console.log(`Data written to ${OUTPUT_PATH}`);
   } catch (err) {
