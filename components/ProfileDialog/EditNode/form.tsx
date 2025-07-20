@@ -2,7 +2,7 @@ import { FamilyNode } from "@/types/FamilyNode";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Gender } from "relatives-tree/lib/types";
+import { Gender, RelType } from "relatives-tree/lib/types";
 import { SOURCES, useDialog } from "@/contexts/DialogContext";
 import { SourceKeys } from "@/types/DialogContext";
 import { set } from "idb-keyval";
@@ -82,7 +82,7 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
       const res = await fetch("/api/family", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, id: selectedNode?.id }),
+        body: JSON.stringify({ ...data, id: data?.id }),
       });
       if (!res.ok) throw new Error("Failed to save node");
       return res.json();
@@ -92,14 +92,54 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
     },
   });
 
+  // Helper to build the payload for mutation based on formType
+  const buildPayload = useCallback(
+    (formType: string, data: FamilyNodeForm): Partial<FamilyNode> => {
+      const {
+        birth,
+        birthLocation,
+        death,
+        deathLocation,
+        gender,
+        name,
+        occupation,
+        profileImg,
+        id,
+        spouses,
+      } = data;
+      switch (formType) {
+        case SourceKeys.ADD_SPOUSE:
+          return {
+            birth,
+            birthLocation,
+            death,
+            deathLocation,
+            gender,
+            name,
+            occupation,
+            profileImg,
+            id: "",
+            spouses: [
+              {
+                id: id as string,
+                type: "married" as RelType,
+              },
+            ],
+          };
+        default:
+          return {
+            ...data,
+            spouses: (data.spouses
+              ? [{ id: data.spouses, type: "married" }]
+              : []) as any,
+          };
+      }
+    },
+    []
+  );
+
   const onSubmit = (data: FamilyNodeForm) => {
-    // Prepare payload for mutation
-    const payload: Partial<FamilyNode> = {
-      ...data,
-      spouses: (data.spouses
-        ? [{ id: data.spouses, type: "married" }]
-        : []) as any,
-    };
+    const payload = buildPayload(formType, data);
 
     mutation.mutate(payload, {
       onSuccess: async () => {
@@ -151,10 +191,6 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
   const membersSpouseData = useMemo(() => {
     return members.find((member: FamilyNode) => member?.id === spouseId);
   }, [spouseId, members]);
-
-  console.log("selectedNode", selectedNode);
-  console.log(spouseId);
-  console.log("membersSpouseData", membersSpouseData);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

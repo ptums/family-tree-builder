@@ -55,8 +55,6 @@ const NodeProfile = () => {
     url: doc.url,
   }));
 
-  console.log("selectedNode", selectedNode);
-
   return (
     <>
       <DialogTitle className="font-bold">{selectedNode?.name}</DialogTitle>

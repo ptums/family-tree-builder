@@ -70,8 +70,9 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const data = await request.json();
+
   const {
-    id,
+    id = null,
     name = null,
     birth = null,
     birthLocation = null,
@@ -85,13 +86,12 @@ export async function POST(request: Request) {
     spouses = [], // Accept spouses array,
     gender = null,
   } = data;
-
   // Convert empty strings to null for UUID fields
   const normalizedFatherId = fatherId === "" ? null : fatherId;
   const normalizedMotherId = motherId === "" ? null : motherId;
 
   if (id) {
-    // Update existing node
+    // Updated exiting query
     await sql`
       UPDATE family_node SET
         name = ${name},
@@ -108,7 +108,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Node updated" });
   } else {
     // Create new node with generated UUID
+
     const newId = randomUUID();
+
     const result = await sql`
       INSERT INTO family_node (
         id, name, birth, birthLocation, death, deathLocation, fatherId, motherId, occupation, profileImg, gender
@@ -118,14 +120,14 @@ export async function POST(request: Request) {
     `;
 
     // Insert children relationships
-    if (fatherId) {
+    if (normalizedFatherId) {
       await sql`
-        INSERT INTO child (parent_id, child_id) VALUES (${fatherId}, ${newId})
+        INSERT INTO child (parent_id, child_id) VALUES (${normalizedFatherId}, ${newId})
       `;
     }
-    if (motherId) {
+    if (normalizedMotherId) {
       await sql`
-        INSERT INTO child (parent_id, child_id) VALUES (${motherId}, ${newId})
+        INSERT INTO child (parent_id, child_id) VALUES (${normalizedMotherId}, ${newId})
       `;
     }
 
