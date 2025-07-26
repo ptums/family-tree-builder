@@ -9,14 +9,14 @@ const DarkBanner = ({
   bannerPosition: string;
 }) => {
   return (
-    <footer
+    <div
       className={classNames(
         "fixed left-0 w-full h-[50px] bg-black/80 shadow-t flex items-center justify-center z-50",
         bannerPosition
       )}
     >
       <div className="text-white flex flex-col sm:flex-row">{children}</div>
-    </footer>
+    </div>
   );
 };
 

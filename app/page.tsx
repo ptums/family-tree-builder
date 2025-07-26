@@ -34,6 +34,7 @@ function useFamilyData() {
 
 export default function App() {
   const methods = useForm();
+
   return (
     <>
       <SignedIn>

@@ -32,24 +32,52 @@ const FamilyTree = ({ treeData }: { treeData: FamilyTreeNodes[] }) => {
 
   // Scroll to the specific node and center it on the page
   useEffect(() => {
-    const targetElement = document.getElementById(ROOT_NODE_ID);
-    if (targetElement) {
-      const rect = targetElement.getBoundingClientRect();
-      const scrollTop =
-        window.pageYOffset +
-        rect.top -
-        window.innerHeight / 2 +
-        rect.height / 2;
-      const scrollLeft =
-        window.pageXOffset + rect.left - window.innerWidth / 2 + rect.width / 2;
+    const scrollToNode = () => {
+      const targetElement = document.getElementById(ROOT_NODE_ID);
+      if (targetElement) {
+        const rect = targetElement.getBoundingClientRect();
+        const scrollTop =
+          window.pageYOffset +
+          rect.top -
+          window.innerHeight / 2 +
+          rect.height / 2;
+        const scrollLeft =
+          window.pageXOffset +
+          rect.left -
+          window.innerWidth / 2 +
+          rect.width / 2;
 
-      window.scrollTo({
-        top: scrollTop,
-        left: scrollLeft,
-        behavior: "instant",
-      });
-    }
-  }, []);
+        window.scrollTo({
+          top: scrollTop,
+          left: scrollLeft,
+          behavior: "instant",
+        });
+        return true; // Element found and scrolled
+      }
+      return false; // Element not found
+    };
+
+    // Wait for authentication and DOM to be stable
+    const waitForElement = () => {
+      // Try to find the element
+      if (scrollToNode()) {
+        return; // Success!
+      }
+
+      // If not found, wait a bit and try again
+      setTimeout(() => {
+        if (!scrollToNode()) {
+          // If still not found, try one more time with a longer delay
+          setTimeout(scrollToNode, 500);
+        }
+      }, 200);
+    };
+
+    // Start the process after a short delay to let Clerk auth settle
+    const timer = setTimeout(waitForElement, 100);
+
+    return () => clearTimeout(timer);
+  }, [treeDataMemo]); // Add treeDataMemo as dependency to re-run when data changes
 
   return (
     <div className="flex flex-col h-full">
