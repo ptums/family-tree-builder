@@ -1,0 +1,25 @@
+{
+  "name": "barnwell-family-tree-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Barnwell Family Tree",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "watch": "tsc --watch"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.4.0",
+    "openai": "^5.10.1",
+    "@neondatabase/serverless": "^1.0.1",
+    "dotenv": "^17.0.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "typescript": "^5",
+    "tsx": "^4.7.0"
+  }
+}

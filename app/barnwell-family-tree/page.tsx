@@ -1,5 +1,6 @@
 "use client";
 import FamilyTree from "@/components/FamilyTree";
+import Chat from "@/components/Chat";
 import { FamilyNode } from "@/types/FamilyNode";
 import {
   useQuery,
@@ -68,5 +69,14 @@ function FamilyTreeWithQuery() {
   if (isLoading) return <LoadingIcon />;
   if (error) return <div>Error loading family data</div>;
 
-  return <FamilyTree treeData={data as unknown as FamilyNode[]} />;
+  return (
+    <div className="flex h-screen">
+      <div className="flex-1">
+        <FamilyTree treeData={data as unknown as FamilyNode[]} />
+      </div>
+      <div className="w-96 p-4 border-l">
+        <Chat />
+      </div>
+    </div>
+  );
 }
