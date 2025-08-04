@@ -3,7 +3,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
-  title: "Barnwell Family Tree",
+  title: "Family Tree Builder",
 };
 
 export default function RootLayout({
