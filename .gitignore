@@ -5,6 +5,11 @@
 
 # testing
 /coverage
+/playwright-report/
+/test-results/
+
+# agent worktrees (see PROCESS.md)
+/.worktrees/
 
 # next.js
 /.next/
