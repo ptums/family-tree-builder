@@ -12,9 +12,7 @@ const DocumentList = ({
   copiedDocId: string;
 }) => (
   <ul className="mt-2">
-    {uploadedDocs?.length === 0 && (
-      <li className="text-gray-500">No documents uploaded yet.</li>
-    )}
+    {uploadedDocs?.length === 0 && <li className="text-gray-500">No documents uploaded yet.</li>}
     {uploadedDocs?.map((doc) => (
       <li key={doc.id} className="flex items-center justify-between">
         <span
@@ -38,9 +36,7 @@ const DocumentList = ({
               </button>
             </>
           )}
-          {copiedDocId === doc.id && (
-            <span className="text-green-600 text-xs ml-1">Copied!</span>
-          )}
+          {copiedDocId === doc.id && <span className="text-green-600 text-xs ml-1">Copied!</span>}
         </span>
         {handleDelete && (
           <button

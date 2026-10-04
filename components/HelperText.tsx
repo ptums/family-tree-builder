@@ -25,9 +25,7 @@ const HelperText = () => {
           });
         }}
       >
-        <span className="underline cursor-pointer">
-          Click to add new member
-        </span>
+        <span className="underline cursor-pointer">Click to add new member</span>
       </button>
     </div>
   );

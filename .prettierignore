@@ -1,0 +1,11 @@
+# Never let Prettier touch data, lockfiles, or generated output.
+data/
+pnpm-lock.yaml
+.next/
+coverage/
+playwright-report/
+test-results/
+.worktrees/
+e2e/fixtures/*.sql
+db/*.sql
+next-env.d.ts

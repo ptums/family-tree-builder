@@ -26,9 +26,7 @@ const ProfileList = memo(({ title, list, setSelectedNode }: any) => {
     if (!familyData) return [];
     return list
       .map((node: any) => {
-        const currentNode = familyData.find(
-          (data: any) => data?.id === node?.id
-        );
+        const currentNode = familyData.find((data: any) => data?.id === node?.id);
         return currentNode;
       })
       .filter(Boolean);

@@ -2,16 +2,14 @@
 
 # dependencies
 /node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
 
 # testing
 /coverage
+/playwright-report/
+/test-results/
+
+# agent worktrees (see PROCESS.md)
+/.worktrees/
 
 # next.js
 /.next/
@@ -32,6 +30,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -42,7 +41,5 @@ next-env.d.ts
 
 data/*
 
-# clerk configuration (can include secrets)
-/.clerk/
 .stuff
 env-original

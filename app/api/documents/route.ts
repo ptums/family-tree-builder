@@ -1,20 +1,13 @@
 import { NextResponse } from "next/server";
-import { neon } from "@neondatabase/serverless";
-import "dotenv/config";
+import { getSql } from "@/lib/db";
 import { randomUUID } from "crypto";
 
-const DATABASE_URL = process.env.DATABASE_URL;
-if (!DATABASE_URL) throw new Error("DATABASE_URL is not set");
-const sql = neon(DATABASE_URL);
-
 export async function GET(request: Request) {
+  const sql = await getSql();
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
   if (!id) {
-    return NextResponse.json(
-      { error: "Missing id parameter" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Missing id parameter" }, { status: 400 });
   }
   const result = await sql`SELECT * FROM documents WHERE userId = ${id}`;
   if (result.length === 0) {
@@ -25,13 +18,11 @@ export async function GET(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const sql = await getSql();
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
   if (!id) {
-    return NextResponse.json(
-      { error: "Missing id parameter" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Missing id parameter" }, { status: 400 });
   }
   const result = await sql`DELETE FROM documents WHERE id = ${id} RETURNING *`;
   if (result.length === 0) {
@@ -44,12 +35,10 @@ export async function DELETE(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const sql = await getSql();
   const { name, url, userId } = await request.json();
   if (!name || !url || !userId) {
-    return NextResponse.json(
-      { error: "Missing required fields" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
   }
   const newId = randomUUID();
   const result = await sql`

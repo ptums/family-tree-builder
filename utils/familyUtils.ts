@@ -14,7 +14,7 @@ export const findSiblings = (
   data: any,
   currentNode: FamilyNode,
   fatherKey: string,
-  motherKey: string
+  motherKey: string,
 ): Sibling[] => {
   const siblings: Sibling[] = [];
 
@@ -22,19 +22,16 @@ export const findSiblings = (
   const siblingNodes = data.filter(
     (node: FamilyNode) =>
       node.id !== currentNode.id &&
-      node[fatherKey as keyof FamilyNode] ===
-        currentNode[fatherKey as keyof FamilyNode] &&
-      node[motherKey as keyof FamilyNode] ===
-        currentNode[motherKey as keyof FamilyNode] &&
+      node[fatherKey as keyof FamilyNode] === currentNode[fatherKey as keyof FamilyNode] &&
+      node[motherKey as keyof FamilyNode] === currentNode[motherKey as keyof FamilyNode] &&
       node[fatherKey as keyof FamilyNode] !== null &&
-      node[motherKey as keyof FamilyNode] !== null
+      node[motherKey as keyof FamilyNode] !== null,
   );
 
   // Convert to the required format
   siblingNodes.forEach((node: any) => {
     // Determine the type based on the node's gender
-    const type: "father" | "mother" =
-      node.gender === "male" ? "father" : "mother";
+    const type: "father" | "mother" = node.gender === "male" ? "father" : "mother";
 
     siblings.push({
       id: node.id,
@@ -66,7 +63,7 @@ export const mapFamilyTreeNodeKeys = (
   siblings: any,
   spouses: any,
   children: any,
-  parents: any
+  parents: any,
 ) => ({
   id: node.id,
   gender: node.gender,
@@ -109,6 +106,15 @@ export function cleanAncestryData(text: string): string {
 export function formatDate(dateString: string | null): string | null {
   if (!dateString) return null;
 
+  // new Date() reads "1932" and "1930-07-08" as UTC midnight, which is the
+  // previous day in US timezones. Handle these before falling back to it.
+  if (/^\d{4}$/.test(dateString)) return dateString;
+  const iso = dateString.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  if (iso) {
+    const [, year, month, day] = iso;
+    return `${month.padStart(2, "0")}/${day.padStart(2, "0")}/${year}`;
+  }
+
   // Handle various date formats
   const date = new Date(dateString);
   if (isNaN(date.getTime())) {
@@ -146,9 +152,10 @@ export function formatDate(dateString: string | null): string | null {
           const monthIndex = monthNames.indexOf(month.toLowerCase());
 
           if (monthIndex !== -1) {
-            return `${String(monthIndex + 1).padStart(2, "0")}/${String(
-              day
-            ).padStart(2, "0")}/${year}`;
+            return `${String(monthIndex + 1).padStart(2, "0")}/${String(day).padStart(
+              2,
+              "0",
+            )}/${year}`;
           }
         } else if (match.length === 2) {
           // Year only
@@ -160,7 +167,8 @@ export function formatDate(dateString: string | null): string | null {
     return dateString; // Return original if can't parse
   }
 
-  return `${String(date.getMonth() + 1).padStart(2, "0")}/${String(
-    date.getDate()
-  ).padStart(2, "0")}/${date.getFullYear()}`;
+  return `${String(date.getMonth() + 1).padStart(2, "0")}/${String(date.getDate()).padStart(
+    2,
+    "0",
+  )}/${date.getFullYear()}`;
 }

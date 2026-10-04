@@ -22,11 +22,9 @@ const ProfileFact = dynamic(() => import("./ProfileFact"), {
 
 const NodeProfile = () => {
   const { selectedNode, setSelectedNode, openDialog } = useDialog();
-  const hasSiblings =
-    selectedNode?.siblings && selectedNode.siblings.length > 0;
+  const hasSiblings = selectedNode?.siblings && selectedNode.siblings.length > 0;
 
-  const hasChildren =
-    selectedNode?.children && selectedNode?.children.length > 0;
+  const hasChildren = selectedNode?.children && selectedNode?.children.length > 0;
 
   const hasParents = selectedNode?.parents && selectedNode?.parents.length > 0;
 
@@ -75,18 +73,14 @@ const NodeProfile = () => {
           {selectedNode?.birth && (
             <ProfileFact
               title="Born"
-              fact={`${selectedNode?.birth} - ${
-                selectedNode?.birthLocation || ""
-              }`}
+              fact={`${selectedNode?.birth} - ${selectedNode?.birthLocation || ""}`}
             />
           )}
 
           {selectedNode?.death && (
             <ProfileFact
               title="Death"
-              fact={`${selectedNode?.death} - ${
-                selectedNode?.deathLocation || ""
-              }`}
+              fact={`${selectedNode?.death} - ${selectedNode?.deathLocation || ""}`}
             />
           )}
 
@@ -133,10 +127,7 @@ const NodeProfile = () => {
             <p className="font-bold">Files</p>
             <ul className="list-disc list-inside">
               {documentList.map((item: any) => (
-                <li
-                  key={item?.id}
-                  className="underline cursor-pointer hover:text-blue-600"
-                >
+                <li key={item?.id} className="underline cursor-pointer hover:text-blue-600">
                   <a href={item?.url} target="_blank">
                     {item?.name}
                   </a>
@@ -160,8 +151,8 @@ const NodeProfile = () => {
                   selectedNode?.gender === "male"
                     ? ("female" as Gender)
                     : selectedNode?.gender === "female"
-                    ? ("male" as Gender)
-                    : ("male" as Gender),
+                      ? ("male" as Gender)
+                      : ("male" as Gender),
                 spouses: [
                   {
                     id: selectedNode?.id,
@@ -172,7 +163,7 @@ const NodeProfile = () => {
               {
                 key: SourceKeys.ADD_SPOUSE,
                 component: SOURCES[SourceKeys.EDIT_NODE],
-              }
+              },
             );
           }
         }}

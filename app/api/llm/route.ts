@@ -1,23 +1,18 @@
 // app/llm/route.ts
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import { neon } from "@neondatabase/serverless";
-import "dotenv/config";
+import { getSql } from "@/lib/db";
 import { randomUUID } from "crypto";
 import { buildFamilyExtractorPrompt } from "./prompts";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-const DATABASE_URL = process.env.DATABASE_URL;
-if (!DATABASE_URL) throw new Error("DATABASE_URL is not set");
-const sql = neon(DATABASE_URL);
-
 export async function POST(request: Request) {
+  const sql = await getSql();
   const { text, insertToDatabase = false } = await request.json();
-  if (!text)
-    return NextResponse.json({ error: "No text provided" }, { status: 400 });
+  if (!text) return NextResponse.json({ error: "No text provided" }, { status: 400 });
 
   const prompt = buildFamilyExtractorPrompt(text);
+  // Created per request so the build doesn't need OPENAI_API_KEY.
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const completion = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
@@ -40,10 +35,7 @@ export async function POST(request: Request) {
       .trim();
     parsed = JSON.parse(jsonContent);
   } catch (e) {
-    return NextResponse.json(
-      { error: "Invalid JSON from LLM", raw },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Invalid JSON from LLM", raw }, { status: 500 });
   }
 
   // If insertToDatabase is true, insert the data into the database
@@ -109,7 +101,7 @@ export async function POST(request: Request) {
           dbError: dbError instanceof Error ? dbError.message : "Unknown error",
           extractedData: parsed,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   }
