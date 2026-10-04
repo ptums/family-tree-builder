@@ -41,7 +41,7 @@ To start: open Claude Code here and say _"read process.md and work the board"_.
 
 ## Deploy
 
-GitHub Actions deploys to Vercel: a preview for every PR (with smoke tests and a URL comment) and production after CI passes on `main`. Vercel's Git auto-deploy is off (`vercel.json`). See PROCESS.md section 6 for the required secrets and variables.
+Today: Vercel's Git integration deploys `main` to production and builds a preview per PR. Hosting is moving to **Cloudflare Workers**, deployed from GitHub Actions ([epic #14](https://github.com/ptums/family-tree-builder/issues/14)); see PROCESS.md section 6.
 
 ## Data and privacy
 

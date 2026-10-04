@@ -22,7 +22,7 @@ G = human gate. Between gates, run autonomously.
 | Project id        | `PVT_kwHOAEPOSs4Blnyt`                                                                                  |
 | Status field id   | `PVTSSF_lAHOAEPOSs4BlnytzhkT7Cg`                                                                        |
 | Status option ids | Backlog `233b42d9` · Ready `69c140ee` · In progress `7bb0ce49` · In review `2bd56bae` · Done `69997b91` |
-| Vercel project    | `family-tree-builder` (ids in GitHub variables, see section 6)                                          |
+| Hosting           | Vercel Git integration today; moving to Cloudflare Workers (epic #14)                                   |
 | Default branch    | `main` (protected; merging deploys to production)                                                       |
 
 Never read `.env` to find config. If something here is wrong, ask.
@@ -50,7 +50,7 @@ gh project item-edit --project-id PVT_kwHOAEPOSs4Blnyt --id "$ITEM" \
 ## 2. Operating rules
 
 **Autonomous (no asking):** reading code, creating branches and worktrees, writing code, tests, and docs inside a ticket, running lint, typecheck, tests, and builds, `gh` and `git` reads, creating issues in **Backlog**, moving cards, commenting on issues, pushing `ticket/*` branches, opening PRs, watching CI.
-**Always ask first:** approving scope or tickets (G1, G2), merging anything, pushing to `main`, production rollbacks or redeploys, changing GitHub secrets, variables, or branch protection, changing Vercel settings, schema changes against a real database, adding dependencies outside a ticket that allows it, deleting files you didn't create, anything that costs money.
+**Always ask first:** approving scope or tickets (G1, G2), merging anything, pushing to `main`, production rollbacks or redeploys, changing GitHub secrets, variables, or branch protection, changing Vercel or Cloudflare settings, schema changes against a real database, adding dependencies outside a ticket that allows it, deleting files you didn't create, anything that costs money.
 **Never:** bypass hooks or CI; read or print secrets or `data/`; use real family data anywhere; merge your own PRs; run `pnpm seed` / `pnpm backup` (they hit the real database).
 **Honesty about verification:** see AGENTS.md rule 12. Mistakes (yours, a subagent's, a test's) go in `docs/REVIEW_LOG.md`.
 
@@ -81,7 +81,7 @@ For each **Ready** ticket, up to 2 at a time (oldest and most-unblocking first):
 2. Spawn **developer** with: the issue text (`gh issue view N`), Files touched, the worktree path, and pointers to the AGENTS.md sections that matter. Launch concurrent developers in the same turn.
 3. When a developer reports done, run the **independent check** (section 4) yourself. Don't trust a green claim; if it was wrong, log it in REVIEW_LOG.
 4. Spawn **reviewer** (and **a11y-auditor** for UI tickets) on `git diff origin/main...HEAD` in the worktree. Blockers go back to the developer; at most 2 rounds, then label `blocked` and raise it at the next gate. Append should-fix and above (and anything the check or CI caught) to `docs/REVIEW_LOG.md`.
-5. Push (`git push -u origin ticket/<N>-<slug>`), `gh pr create --fill-first` with the PR template completed: `Closes #N`, check output, reviewer verdict, a11y notes, "read this closely". Card -> **In review**. Wait for CI; fix red in the branch.
+5. Before **any** push to a branch that already has a PR, check it's still open: `gh pr view <branch> --json state --jq .state` must be `OPEN`; if it's `MERGED`, start a new branch from `origin/main` and cherry-pick. Push (`git push -u origin ticket/<N>-<slug>`), `gh pr create --fill-first` with the PR template completed: `Closes #N`, check output, reviewer verdict, a11y notes, "read this closely". Card -> **In review**. Wait for CI; fix red in the branch.
 6. Continue with tickets that don't depend on open PRs.
 
 ### D. Merge (G3)
@@ -91,9 +91,9 @@ On reply: log the human's findings (found by: human); `git fetch`; remove merged
 
 ### E. Deploy and verify (automatic; G4 only on failure)
 
-1. Merge to `main` -> **CI** -> **Deploy** workflow -> production on Vercel -> `@smoke` Playwright tests against the production URL.
-2. Watch it: `gh run list --workflow deploy.yml -L 1` then `gh run watch <id>`. Green -> card **Done**.
-3. Red -> **G4:** say what failed (log excerpt, no secrets), propose a fix ticket or a rollback (`vercel rollback` or promoting the previous deployment; the human runs or approves it). Log the cause in `SELF_IMPROVEMENT.md`.
+1. Merge to `main` -> **CI** on `main` -> production deploy. **Until the Cloudflare cutover (#14)** the deploy is Vercel's Git integration, not a workflow: ask the human to confirm the production deploy succeeded, then smoke-test it with `E2E_BASE_URL=<production url> pnpm e2e:smoke --project=desktop`. After cutover, `deploy.yml` does both (see section 6).
+2. CI and smoke green -> card **Done**.
+3. Red -> **G4:** say what failed (log excerpt, no secrets), propose a fix ticket or a rollback (the human runs or approves it). Log the cause in `SELF_IMPROVEMENT.md`.
 
 ### F. Retro (after each batch of merges)
 
@@ -119,11 +119,9 @@ Issues use `.github/ISSUE_TEMPLATE/ticket.yml`. Title: `<area>: <imperative summ
 ## 6. CI/CD
 
 - `.github/workflows/ci.yml` (every PR and push to `main`): forbid focused or skipped tests -> format:check -> lint -> typecheck -> Jest with coverage -> build -> Playwright e2e (PGlite, no secrets). Uploads the Playwright report on failure.
-- `.github/workflows/deploy.yml`: PRs -> Vercel **preview** deploy + `@smoke` e2e against it + a PR comment with the URL; push to `main` -> **production** deploy + `@smoke` e2e. Uses `vercel pull/build/deploy --prebuilt`.
-- Required GitHub configuration (the human sets values; agents only check names with `gh secret list` / `gh variable list`):
-  - Secret `VERCEL_TOKEN`
-  - Variables `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` (not secret; also in `.vercel/project.json`)
-  - Runtime env vars (`DATABASE_URL`, `OPENAI_API_KEY`, `UPLOADTHING_TOKEN`) live in **Vercel** project settings per environment; `vercel pull` fetches them during the build. Previews should use a Neon **branch**, never the production database, because e2e smoke tests run there.
+- **Deploy, today:** Vercel's Git integration (outside Actions) deploys `main` to production and builds a preview per PR. There is no deploy workflow in this repo.
+- **Deploy, after the Cloudflare migration (epic #14)**: `.github/workflows/deploy.yml` uploads a Workers preview version per PR + runs `@smoke` e2e against it + comments the URL; after CI passes on `main` it deploys production + runs `@smoke`. The design is settled in the ADR from #12.
+- Required configuration for Cloudflare (#13; the human sets values; agents only check names with `gh secret list` / `gh variable list`): secret `CLOUDFLARE_API_TOKEN`, variable `CLOUDFLARE_ACCOUNT_ID`; Worker secrets (`DATABASE_URL`, `OPENAI_API_KEY`, `UPLOADTHING_TOKEN`) per environment. Previews use a Neon **branch**, never the production database, because smoke tests run there.
 - Branch protection on `main`: require the `CI / check` and `CI / e2e` checks, require a PR, no force pushes.
 
 ## 7. Failure handling

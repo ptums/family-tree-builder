@@ -9,7 +9,7 @@ flowchart LR
     Import["/import<br/>AncestryDataImporter"]
     IDB[(IndexedDB cache<br/>familyData, 1h)]
   end
-  subgraph "Next.js on Vercel (Node)"
+  subgraph "Next.js on Vercel (Node), moving to Cloudflare Workers (#14)"
     Family["/api/family<br/>GET tree, POST create/update"]
     Docs["/api/documents<br/>GET/POST/DELETE"]
     LLM["/api/llm<br/>Ancestry text -> JSON (-> insert)"]

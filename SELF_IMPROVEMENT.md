@@ -27,8 +27,8 @@ STATUS: proposed | applied (PR #) | rejected (why)
 3. **Stacked PRs got merged into their parent branches, not `main`.** ACTION (applied): every PR targets `main`; dependent tickets wait in Backlog until their parent merges.
 4. **Agent-reported numbers were wrong until recomputed**, and "18 passed" hid 2 failures. ACTION (applied): AGENTS.md rule 12 requires quoting the real summary lines, passed and failed.
 5. **A vacuous stub test passed CI** (its route glob never matched). ACTION (applied): AGENTS.md testing rules require asserting a stub was hit.
-6. **A secret was typed into a chat command** and ended up in a transcript. ACTION (applied): PROCESS.md section 6 has the human set secrets in GitHub or Vercel settings; agents only list names.
-7. **Deploy configs passed review but failed on first real run.** ACTION (applied): deploy.yml runs `@smoke` e2e against every preview, so deploy config is exercised on the PR, before `main`.
+6. **A secret was typed into a chat command** and ended up in a transcript. ACTION (applied): PROCESS.md section 6 has the human set secrets in GitHub or hosting settings; agents only list names.
+7. **Deploy configs passed review but failed on first real run.** ACTION (pending, epic #14): the Cloudflare `deploy.yml` must run `@smoke` e2e against every preview, so deploy config is exercised on the PR, before `main`.
 8. **Two tickets that passed alone failed together.** ACTION (applied): CI runs the full suite on `main` after every merge; the orchestrator rebases open branches after each G3.
 
 ## Log
@@ -60,3 +60,10 @@ OBSERVED: The first CI run on PR #11 was green but reported "2 flaky": the two f
 CAUSE: The readiness check waited for `/`, which doesn't touch the database, so the first tests paid PGlite's cold start on a slower runner; reading the code also found that concurrent first requests created two clients (`getSql` cached the client, not the in-flight promise).
 ACTION: `lib/db.ts` caches the promise (with a regression test); `playwright.config.ts` waits on `/api/family` and sets `failOnFlakyTests` in CI so a retry can never turn red into green; AGENTS rule 12 already requires quoting passed and failed (and flaky) counts.
 STATUS: applied (PR #11)
+
+### [2026-10-03] foundation / orchestrator
+
+OBSERVED: The human merged PR #11 while the orchestrator was preparing a follow-up (removing the Vercel deploy pieces after the move to Cloudflare was decided). The follow-up commit was pushed to the already-merged branch, so `main` got `vercel.json` (Vercel Git auto-deploy off) and `deploy.yml` without the removal, and the PR description was then edited to describe a version that never merged.
+CAUSE: No check of the PR state before pushing or editing; the orchestrator assumed the PR was still open because nothing in the session said otherwise.
+ACTION: PROCESS.md C.5 requires `gh pr view --json state` = OPEN before pushing to a PR branch; the stranded commit was cherry-picked onto a new branch from `main` (PR for #14) and a correction comment was posted on #11.
+STATUS: applied (this PR)
