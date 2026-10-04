@@ -19,10 +19,6 @@ export default defineConfig({
   use: {
     baseURL,
     trace: "retain-on-failure",
-    // Lets smoke tests through Vercel Deployment Protection on previews.
-    extraHTTPHeaders: process.env.VERCEL_AUTOMATION_BYPASS_SECRET
-      ? { "x-vercel-protection-bypass": process.env.VERCEL_AUTOMATION_BYPASS_SECRET }
-      : undefined,
   },
   projects: [
     {
@@ -31,7 +27,7 @@ export default defineConfig({
     },
     { name: "phone", use: { ...devices["Pixel 7"] } },
   ],
-  // E2E_BASE_URL (e.g. a Vercel preview) skips the local server: used by the deploy smoke test.
+  // E2E_BASE_URL (a deployed preview or production URL) skips the local server: used for @smoke runs.
   webServer: process.env.E2E_BASE_URL
     ? undefined
     : {

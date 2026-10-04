@@ -27,8 +27,8 @@ STATUS: proposed | applied (PR #) | rejected (why)
 3. **Stacked PRs got merged into their parent branches, not `main`.** ACTION (applied): every PR targets `main`; dependent tickets wait in Backlog until their parent merges.
 4. **Agent-reported numbers were wrong until recomputed**, and "18 passed" hid 2 failures. ACTION (applied): AGENTS.md rule 12 requires quoting the real summary lines, passed and failed.
 5. **A vacuous stub test passed CI** (its route glob never matched). ACTION (applied): AGENTS.md testing rules require asserting a stub was hit.
-6. **A secret was typed into a chat command** and ended up in a transcript. ACTION (applied): PROCESS.md section 6 has the human set secrets in GitHub or Vercel settings; agents only list names.
-7. **Deploy configs passed review but failed on first real run.** ACTION (applied): deploy.yml runs `@smoke` e2e against every preview, so deploy config is exercised on the PR, before `main`.
+6. **A secret was typed into a chat command** and ended up in a transcript. ACTION (applied): PROCESS.md section 6 has the human set secrets in GitHub or hosting settings; agents only list names.
+7. **Deploy configs passed review but failed on first real run.** ACTION (pending, epic #14): the Cloudflare `deploy.yml` must run `@smoke` e2e against every preview, so deploy config is exercised on the PR, before `main`.
 8. **Two tickets that passed alone failed together.** ACTION (applied): CI runs the full suite on `main` after every merge; the orchestrator rebases open branches after each G3.
 
 ## Log

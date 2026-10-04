@@ -42,7 +42,7 @@ Family Tree Builder is a Next.js app for browsing and editing family trees. It s
 | **tester**       | Read, Write, Edit, Grep, Glob, Bash | Requirement -> test coverage map; adds missing tests (tests-only PRs, label `testing`); smoke-tests deployments; keeps `docs/VERIFICATION.md` current with evidence.                                                                                                |
 | **reviewer**     | Read, Grep, Glob, Bash              | Read-only diff review: acceptance criteria met, correctness, edge cases, tests meaningful (not vacuous), security and privacy, scope creep. Ranks blocker / should-fix / nit. Lists 2-3 "read this closely" items for the human. Output is ready for REVIEW_LOG.md. |
 | **a11y-auditor** | Read, Grep, Glob, Bash              | Read-only, UI tickets: keyboard flow, tab order, focus, labels, contrast, semantics, live regions, reduced motion. Runs Playwright + axe. Blockers must be fixed before the PR opens. Axe passing is never the claim.                                               |
-| **release**      | Read, Write, Edit, Grep, Glob, Bash | CI/CD and environments: workflows, Vercel config, env var _names_, deploy smoke tests, rollback steps, README run instructions. Never touches secret values; gives the human the exact command instead.                                                             |
+| **release**      | Read, Write, Edit, Grep, Glob, Bash | CI/CD and environments: workflows, hosting config (the Cloudflare migration, #14), env var _names_, deploy smoke tests, rollback steps, README run instructions. Never touches secret values; gives the human the exact command instead.                            |
 
 ## Models
 
@@ -53,7 +53,7 @@ Family Tree Builder is a Next.js app for browsing and editing family trees. It s
 
 ## Stack (fixed; changing it needs an ADR and human approval)
 
-- **pnpm** (version pinned in `packageManager`), **Node 22** (`engines`; CI and Vercel use the same).
+- **pnpm** (version pinned in `packageManager`), **Node 22** (`engines`; local, CI and hosting use the same).
 - **Next.js 15 App Router**, React 19, TypeScript, Tailwind 4, Headless UI, TanStack Query, react-hook-form, `react-family-tree` / `relatives-tree` for layout.
 - **Database: Neon Postgres** via `@neondatabase/serverless`. All access goes through `getSql()` in `lib/db.ts`, never `neon()` directly. Schema source of truth: `db/schema.sql`. Postgres lowercases unquoted identifiers, so `birthLocation` comes back as `birthlocation` (mapped in `utils/familyUtils.ts`).
 - Uploads: UploadThing. AI import: OpenAI (`app/api/llm`).
@@ -61,9 +61,9 @@ Family Tree Builder is a Next.js app for browsing and editing family trees. It s
   - Unit + integration: **Jest 30** + `@swc/jest`, two projects: `dom` (jsdom; `*.test.tsx`; React Testing Library, user-event, jest-dom, jest-axe) and `node` (`*.test.ts`; API routes, `lib/`, `utils/`).
   - Integration tests hit **real SQL** on **PGlite** (in-memory Postgres) with the real schema: `setupTestDatabase({ seed })` from `test/pglite.ts`. Don't mock the database.
   - E2E: **Playwright** (desktop + phone) + `@axe-core/playwright`, against a production build (`next build && next start`) with `DATABASE_URL=pglite://memory`, an in-memory database seeded with the synthetic family. No secrets needed.
-  - Tests tagged `@smoke` are read-only and data-agnostic; the deploy workflow runs them against real deployments.
+  - Tests tagged `@smoke` are read-only and data-agnostic, so they can run against real deployments (`E2E_BASE_URL=<url> pnpm e2e:smoke`).
 - Lint and format: ESLint 9 flat config (`next/core-web-vitals`, `next/typescript`, all recommended jsx-a11y rules as errors, `eslint-config-prettier`) and Prettier. **Husky + lint-staged**: `pre-commit` = lint-staged then typecheck; `pre-push` = Jest. CI mirrors all of it.
-- **Deploy: Vercel, driven from GitHub Actions** (`vercel build` then `vercel deploy --prebuilt`); Vercel's own Git auto-deploy is off (`vercel.json`). PRs get a preview, `main` goes to production. Never deploy from a laptop.
+- **Hosting: moving from Vercel to Cloudflare Workers** (epic #14). Until cutover, production runs on Vercel's Git integration: it auto-deploys `main` and builds a preview per PR, outside GitHub Actions. Don't add Vercel-specific code or config, and don't add Cloudflare code outside an epic #14 ticket. Never deploy from a laptop.
 
 ### Known gotchas (learned the hard way; respect them)
 

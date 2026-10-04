@@ -6,7 +6,7 @@
 - Track the current loop with the todo list. Keep the GitHub Project board current; it is the record of work, not the todo list.
 - Use plan mode for specs and ticket breakdowns before presenting at a gate.
 - Delegate: keep your own context lean. Subagents live in `.claude/agents/`. Launch independent subagents in the same turn so they run in parallel (default cap: 2 developers).
-- Use `gh` for issues, the project board, PRs, and Actions runs. Use `vercel` only for read-only commands (`vercel ls`, `vercel inspect`); deploys happen in GitHub Actions.
+- Use `gh` for issues, the project board, PRs, and Actions runs. Never deploy: production is on Vercel's Git integration until the Cloudflare migration (#14), and `wrangler` deploy and secret commands are denied.
 - Never read `.env*` (except `.env.example`), `env-original`, `.stuff`, or `data/`. Never print environment variables.
 - Package manager is **pnpm**, never npm or yarn. Run `pnpm test`, not `npx jest` (Jest needs the flags in the script).
 - Before finishing any task: `pnpm check`, plus `pnpm e2e` if UI, routes, or config changed.
