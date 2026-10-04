@@ -1,0 +1,45 @@
+name: Ticket
+description: One PR's worth of work, ready for an agent or a human to pick up.
+labels: []
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Why this matters and any links (spec, ADR, review log entry).
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Checkable by someone who didn't see the reasoning. One per line, as a checklist.
+      placeholder: "- [ ] ..."
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Files touched
+      description: Globs. Tickets meant to run in parallel must not overlap. Say if package.json / lockfile changes.
+    validations:
+      required: true
+  - type: textarea
+    id: tests
+    attributes:
+      label: Test plan
+      description: Which tests prove each criterion (unit / PGlite integration / RTL / Playwright).
+    validations:
+      required: true
+  - type: input
+    id: depends
+    attributes:
+      label: Depends on
+      placeholder: "#12, #13 (or none)"
+  - type: dropdown
+    id: size
+    attributes:
+      label: Size
+      options: ["S (< ~100 lines)", "M (~100-300 lines)"]
+    validations:
+      required: true

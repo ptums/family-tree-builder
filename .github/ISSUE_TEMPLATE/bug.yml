@@ -1,0 +1,21 @@
+name: Bug
+description: Something is broken.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what should have happened
+      description: Don't paste real family data; describe the shape (e.g. "a person with no birth date").
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where (URL, browser, device)
