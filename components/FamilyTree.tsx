@@ -6,7 +6,6 @@ import { FamilyNode as FamilyTreeNodes } from "@/types/FamilyNode";
 import type { FamilyNode as FamilyNodeType } from "@/types/FamilyNode";
 import dynamic from "next/dynamic";
 import LoadingIcon from "@/components/LoadingIcon";
-import { SignOutButton } from "@clerk/nextjs";
 
 const WIDTH = 220;
 const HEIGHT = 200;
@@ -57,7 +56,7 @@ const FamilyTree = ({ treeData }: { treeData: FamilyTreeNodes[] }) => {
       return false; // Element not found
     };
 
-    // Wait for authentication and DOM to be stable
+    // Wait for the DOM to be stable
     const waitForElement = () => {
       // Try to find the element
       if (scrollToNode()) {
@@ -73,7 +72,7 @@ const FamilyTree = ({ treeData }: { treeData: FamilyTreeNodes[] }) => {
       }, 200);
     };
 
-    // Start the process after a short delay to let Clerk auth settle
+    // Start the process after a short delay
     const timer = setTimeout(waitForElement, 100);
 
     return () => clearTimeout(timer);
@@ -86,11 +85,6 @@ const FamilyTree = ({ treeData }: { treeData: FamilyTreeNodes[] }) => {
           <h1 className="text-2xl text-center font-bold">
             Barnwell Family Tree
           </h1>
-          <SignOutButton>
-            <button className="ml-4 text-white hover:underline text-base font-normal">
-              Sign out
-            </button>
-          </SignOutButton>
         </div>
       </DarkBanner>
 

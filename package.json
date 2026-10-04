@@ -2,6 +2,7 @@
   "name": "barnwellft",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.34.1",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,7 +12,6 @@
     "seed": "node scripts/seed.js"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.25.3",
     "@headlessui/react": "^2.2.4",
     "@headlessui/tailwindcss": "^0.2.2",
     "@neondatabase/serverless": "^1.0.1",
@@ -32,6 +32,7 @@
     "react-hook-form": "^7.60.0",
     "react-image-fallback": "^8.0.0",
     "react-image-lightbox": "^5.1.4",
+    "relatives-tree": "^3.2.2",
     "uploadthing": "^7.7.3"
   },
   "devDependencies": {
@@ -42,5 +43,12 @@
     "@types/react-image-fallback": "^8.0.6",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@tailwindcss/oxide",
+      "msgpackr-extract",
+      "sharp"
+    ]
   }
 }
