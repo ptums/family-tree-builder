@@ -53,3 +53,10 @@ OBSERVED: The first unit tests found `formatDate("1932")` returned `12/31/1931` 
 CAUSE: `new Date("YYYY")` / `new Date("YYYY-MM-DD")` parse as UTC; `getDate()` reads local time.
 ACTION: Fixed in `utils/familyUtils.ts` with regression tests pinned to America/New_York; AGENTS.md gotcha: never round-trip genealogy dates through `Date`.
 STATUS: applied (PR for #1)
+
+### [2026-10-03] foundation / CI
+
+OBSERVED: The first CI run on PR #11 was green but reported "2 flaky": the two first e2e tests timed out and passed on retry. Locally all 14 passed every time.
+CAUSE: The readiness check waited for `/`, which doesn't touch the database, so the first tests paid PGlite's cold start on a slower runner; reading the code also found that concurrent first requests created two clients (`getSql` cached the client, not the in-flight promise).
+ACTION: `lib/db.ts` caches the promise (with a regression test); `playwright.config.ts` waits on `/api/family` and sets `failOnFlakyTests` in CI so a retry can never turn red into green; AGENTS rule 12 already requires quoting passed and failed (and flaky) counts.
+STATUS: applied (PR #11)
