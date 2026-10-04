@@ -81,7 +81,7 @@ For each **Ready** ticket, up to 2 at a time (oldest and most-unblocking first):
 2. Spawn **developer** with: the issue text (`gh issue view N`), Files touched, the worktree path, and pointers to the AGENTS.md sections that matter. Launch concurrent developers in the same turn.
 3. When a developer reports done, run the **independent check** (section 4) yourself. Don't trust a green claim; if it was wrong, log it in REVIEW_LOG.
 4. Spawn **reviewer** (and **a11y-auditor** for UI tickets) on `git diff origin/main...HEAD` in the worktree. Blockers go back to the developer; at most 2 rounds, then label `blocked` and raise it at the next gate. Append should-fix and above (and anything the check or CI caught) to `docs/REVIEW_LOG.md`.
-5. Push (`git push -u origin ticket/<N>-<slug>`), `gh pr create --fill-first` with the PR template completed: `Closes #N`, check output, reviewer verdict, a11y notes, "read this closely". Card -> **In review**. Wait for CI; fix red in the branch.
+5. Before **any** push to a branch that already has a PR, check it's still open: `gh pr view <branch> --json state --jq .state` must be `OPEN`; if it's `MERGED`, start a new branch from `origin/main` and cherry-pick. Push (`git push -u origin ticket/<N>-<slug>`), `gh pr create --fill-first` with the PR template completed: `Closes #N`, check output, reviewer verdict, a11y notes, "read this closely". Card -> **In review**. Wait for CI; fix red in the branch.
 6. Continue with tickets that don't depend on open PRs.
 
 ### D. Merge (G3)
