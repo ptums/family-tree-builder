@@ -7,9 +7,7 @@ interface AncestryDataImporterProps {
   onImportComplete?: () => void;
 }
 
-export default function AncestryDataImporter({
-  onImportComplete,
-}: AncestryDataImporterProps) {
+export default function AncestryDataImporter({ onImportComplete }: AncestryDataImporterProps) {
   const [ancestryData, setAncestryData] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -98,15 +96,10 @@ export default function AncestryDataImporter({
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4 text-gray-800">
-        Import Ancestry.com Data
-      </h2>
+      <h2 className="text-2xl font-bold mb-4 text-gray-800">Import Ancestry.com Data</h2>
 
       <div className="mb-4">
-        <label
-          htmlFor="ancestry-data"
-          className="block text-sm font-medium text-gray-700 mb-2"
-        >
+        <label htmlFor="ancestry-data" className="block text-sm font-medium text-gray-700 mb-2">
           Paste Ancestry.com Profile Data
         </label>
         <textarea
@@ -170,26 +163,19 @@ Mother: Elizabeth Brown"
               </h4>
               <div className="max-h-64 overflow-y-auto">
                 {result.nodes?.map((node: any, index: number) => (
-                  <div
-                    key={index}
-                    className="p-2 bg-gray-50 rounded mb-2 text-sm"
-                  >
+                  <div key={index} className="p-2 bg-gray-50 rounded mb-2 text-sm">
                     <div className="font-medium">{node.name}</div>
                     {node.birth && (
                       <div>
-                        Born: {node.birth}{" "}
-                        {node.birthLocation && `in ${node.birthLocation}`}
+                        Born: {node.birth} {node.birthLocation && `in ${node.birthLocation}`}
                       </div>
                     )}
                     {node.death && (
                       <div>
-                        Died: {node.death}{" "}
-                        {node.deathLocation && `in ${node.deathLocation}`}
+                        Died: {node.death} {node.deathLocation && `in ${node.deathLocation}`}
                       </div>
                     )}
-                    {node.occupation && (
-                      <div>Occupation: {node.occupation}</div>
-                    )}
+                    {node.occupation && <div>Occupation: {node.occupation}</div>}
                   </div>
                 ))}
               </div>
@@ -201,13 +187,8 @@ Mother: Elizabeth Brown"
               </h4>
               <div className="max-h-64 overflow-y-auto">
                 {result.relations?.map((relation: any, index: number) => (
-                  <div
-                    key={index}
-                    className="p-2 bg-gray-50 rounded mb-2 text-sm"
-                  >
-                    <div className="font-medium">
-                      {relation.type} relationship
-                    </div>
+                  <div key={index} className="p-2 bg-gray-50 rounded mb-2 text-sm">
+                    <div className="font-medium">{relation.type} relationship</div>
                     <div>Date: {relation.date || "Unknown"}</div>
                   </div>
                 ))}

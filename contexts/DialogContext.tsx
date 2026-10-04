@@ -17,13 +17,10 @@ const EditNode = dynamic(() => import("@/components/ProfileDialog/EditNode"), {
   ssr: false,
 });
 
-const NodeProfile = dynamic(
-  () => import("@/components/ProfileDialog/NodeProfile"),
-  {
-    loading: () => <LoadingIcon />,
-    ssr: false,
-  }
-);
+const NodeProfile = dynamic(() => import("@/components/ProfileDialog/NodeProfile"), {
+  loading: () => <LoadingIcon />,
+  ssr: false,
+});
 
 const DialogContext = createContext<DialogContextType | undefined>(undefined);
 

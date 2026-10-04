@@ -35,16 +35,8 @@ const FamilyTree = ({ treeData }: { treeData: FamilyTreeNodes[] }) => {
       const targetElement = document.getElementById(ROOT_NODE_ID);
       if (targetElement) {
         const rect = targetElement.getBoundingClientRect();
-        const scrollTop =
-          window.pageYOffset +
-          rect.top -
-          window.innerHeight / 2 +
-          rect.height / 2;
-        const scrollLeft =
-          window.pageXOffset +
-          rect.left -
-          window.innerWidth / 2 +
-          rect.width / 2;
+        const scrollTop = window.pageYOffset + rect.top - window.innerHeight / 2 + rect.height / 2;
+        const scrollLeft = window.pageXOffset + rect.left - window.innerWidth / 2 + rect.width / 2;
 
         window.scrollTo({
           top: scrollTop,
@@ -82,9 +74,7 @@ const FamilyTree = ({ treeData }: { treeData: FamilyTreeNodes[] }) => {
     <div className="flex flex-col h-full">
       <DarkBanner bannerPosition={"top-0"}>
         <div className="flex items-center justify-between w-full">
-          <h1 className="text-2xl text-center font-bold">
-            Barnwell Family Tree
-          </h1>
+          <h1 className="text-2xl text-center font-bold">Barnwell Family Tree</h1>
         </div>
       </DarkBanner>
 

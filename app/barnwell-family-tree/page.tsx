@@ -1,11 +1,7 @@
 "use client";
 import FamilyTree from "@/components/FamilyTree";
 import { FamilyNode } from "@/types/FamilyNode";
-import {
-  useQuery,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { useQuery, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { get, set } from "idb-keyval";
 import { DialogProvider } from "@/contexts/DialogContext";
 import LoadingIcon from "@/components/LoadingIcon";

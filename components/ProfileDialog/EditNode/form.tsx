@@ -37,19 +37,16 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
 
   const formType = selectedSource?.key;
 
-  const { register, handleSubmit, reset, setValue, watch } =
-    useForm<FamilyNodeForm>({
-      defaultValues: {
-        ...selectedNode,
-        gender: selectedNode?.gender
-          ? selectedNode?.gender
-          : ("male" as Gender),
-        spouses:
-          selectedNode?.spouses && selectedNode.spouses.length > 0
-            ? (selectedNode.spouses[0] as any).id
-            : "",
-      },
-    });
+  const { register, handleSubmit, reset, setValue, watch } = useForm<FamilyNodeForm>({
+    defaultValues: {
+      ...selectedNode,
+      gender: selectedNode?.gender ? selectedNode?.gender : ("male" as Gender),
+      spouses:
+        selectedNode?.spouses && selectedNode.spouses.length > 0
+          ? (selectedNode.spouses[0] as any).id
+          : "",
+    },
+  });
 
   useEffect(() => {
     reset({
@@ -129,13 +126,11 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
         default:
           return {
             ...data,
-            spouses: (data.spouses
-              ? [{ id: data.spouses, type: "married" }]
-              : []) as any,
+            spouses: (data.spouses ? [{ id: data.spouses, type: "married" }] : []) as any,
           };
       }
     },
-    []
+    [],
   );
 
   const onSubmit = (data: FamilyNodeForm) => {
@@ -174,7 +169,7 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
     (gender: string) => {
       return members.filter((member: FamilyNode) => member?.gender === gender);
     },
-    [members]
+    [members],
   );
 
   const maleMembers = membersByGender("male");
@@ -183,9 +178,7 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
   // Use the gender from the form if available, otherwise fallback to selectedNode.gender, otherwise default to 'male'
   const formGender = watch("gender");
   const effectiveGender = formGender || selectedNode?.gender || "male";
-  const oppositeSexNodes = membersByGender(
-    effectiveGender === "female" ? "male" : "female"
-  );
+  const oppositeSexNodes = membersByGender(effectiveGender === "female" ? "male" : "female");
 
   const spouseId = watch("spouses");
   const membersSpouseData = useMemo(() => {
@@ -273,8 +266,7 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
               className="mr-2"
             />
             <span className="text-sm">
-              Only update the parents if you want to change both the mother and
-              the father
+              Only update the parents if you want to change both the mother and the father
             </span>
           </label>
         </div>
@@ -293,9 +285,7 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
             {...register(FATHER_ID_LABEL as keyof FamilyNode)}
             disabled={!enableParentSelection}
           >
-            <option value="">
-              {fatherNode ? fatherNode?.name : "Select a parent"}
-            </option>
+            <option value="">{fatherNode ? fatherNode?.name : "Select a parent"}</option>
             {maleMembers.map((person) => (
               <option key={person.id} value={person.id}>
                 {person.name}
@@ -317,9 +307,7 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
             {...register(MOTHER_ID_LABEL as keyof FamilyNode)}
             disabled={!enableParentSelection}
           >
-            <option value="">
-              {motherNode ? motherNode?.name : "Select a parent"}
-            </option>
+            <option value="">{motherNode ? motherNode?.name : "Select a parent"}</option>
             {femaleMembers.map((person) => (
               <option key={person.id} value={person.id}>
                 {person.name}
@@ -352,9 +340,7 @@ const NodeForm = ({ selectedNode }: { selectedNode: FamilyNode | null }) => {
         </button>
       </div>
       {mutation.isError && (
-        <p className="text-red-600">
-          Error: {(mutation.error as Error).message}
-        </p>
+        <p className="text-red-600">Error: {(mutation.error as Error).message}</p>
       )}
       {mutation.isSuccess && <p className="text-green-600">Success!</p>}
     </form>

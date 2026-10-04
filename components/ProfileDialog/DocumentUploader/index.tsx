@@ -15,8 +15,7 @@ const DocumentUploader = () => {
   return (
     <>
       <DialogTitle className="font-bold">
-        Add documents to{" "}
-        <span className="underline">{selectedNode?.name} </span>Profile
+        Add documents to <span className="underline">{selectedNode?.name} </span>Profile
       </DialogTitle>
 
       <UploaderForm />
