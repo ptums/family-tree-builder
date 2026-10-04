@@ -38,18 +38,18 @@ STATUS: proposed | applied (PR #) | rejected (why)
 OBSERVED: During setup the orchestrator ran `cat` on an unfamiliar dotfile (`.stuff`) while surveying the repo; it held a plaintext login. Nothing was committed, and the value was not repeated.
 CAUSE: Bulk `cat` of every root file to "see what's there", with no deny rule for unknown files.
 ACTION: `.claude/settings.json` denies reads of `.stuff`, `env-original`, `.env*` (except `.env.example`) and `data/`; AGENTS.md rule 8 lists them. Human should move that credential to a password manager and delete the file.
-STATUS: applied (foundation PR)
+STATUS: applied (PR for #1)
 
 ### [2026-10-03] foundation / orchestrator
 
 OBSERVED: Copying the parks ESLint config, which set _every_ jsx-a11y recommended key to `error`, turned on deprecated rules the recommended set deliberately disables (`label-has-for`), producing contradictory errors.
 CAUSE: `Object.keys(recommended.rules)` includes rules set to `"off"`.
 ACTION: `eslint.config.mjs` filters out `"off"` rules before mapping to `error`; AGENTS.md gotcha added. (The parks repo has the same latent bug.)
-STATUS: applied (foundation PR)
+STATUS: applied (PR for #1)
 
 ### [2026-10-03] foundation / orchestrator
 
 OBSERVED: The first unit tests found `formatDate("1932")` returned `12/31/1931` and ISO dates shifted back a day in US time zones.
 CAUSE: `new Date("YYYY")` / `new Date("YYYY-MM-DD")` parse as UTC; `getDate()` reads local time.
 ACTION: Fixed in `utils/familyUtils.ts` with regression tests pinned to America/New_York; AGENTS.md gotcha: never round-trip genealogy dates through `Date`.
-STATUS: applied (foundation PR)
+STATUS: applied (PR for #1)
