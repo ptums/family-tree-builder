@@ -9,7 +9,7 @@ What was checked, how, and by whom. "Automated" rows run in CI on every PR.
 | Playwright e2e, desktop + phone, production build on in-memory DB                          | automated | pass   | `pnpm e2e`: 14 passed, 0 flaky (CI run 37168446675)      | 2026-10-03 |
 | Format-only commit contains nothing beyond Prettier output                                 | agent     | pass   | Re-ran Prettier on the previous versions; 0 files differ | 2026-10-03 |
 | Pre-commit hook runs lint-staged + typecheck                                               | agent     | pass   | Observed on the foundation commits                       | 2026-10-03 |
-| Preview + production deploy and `@smoke` e2e against them                                  | automated | TODO   | First run after `VERCEL_TOKEN` is set                    |            |
+| Preview + production deploy and `@smoke` e2e against them                                  | automated | TODO   | Not built yet: Cloudflare migration (#14)                |            |
 
 ## Checks passing tests can miss (standing list)
 
